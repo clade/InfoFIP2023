@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fit d’une image &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fit de franges d’interférence" href="fit_sinu.html" />
+    <link rel="prev" title="Corrélation" href="correlation.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="correlation.html" title="Corrélation"
+             accesskey="P">previous</a> |
+          <a href="fit_sinu.html" title="Fit de franges d’interférence"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="fit-d-une-image">
+<h1>Fit d’une image<a class="headerlink" href="#fit-d-une-image" title="Permalink to this headline">¶</a></h1>
+<p>Le fichier <a class="reference download internal" download="" href="../_downloads/d2ee71e3c8c6cd0732de5988a17fa3c7/double_star.txt"><code class="xref download docutils literal notranslate"><span class="pre">data/double_star.txt</span></code></a> contient une image de 64 par 64 pixels d’une étoile double. L’objectif de cette partie est d’ajuster cette image par la somme de deux Gaussiennes afin de déterminer la distance entre les étoiles.</p>
+<ol class="arabic simple">
+<li><p>Charger et afficher le fichier à l’aide de la fonction imshow</p></li>
+<li><p>Définir une fonction de fit et tracer une image qui ressemble à celle ci. On pourra utiliser la fonction meshgrid.</p></li>
+</ol>
+<p>Il n’est pas possible de travailler directement sur des tableau 2D pour le fit : l’ensemble des intensité de l’image doit être sous forme d’un tableau (taille <span class="math notranslate nohighlight">\(N\)</span>) ainsi que l’ensemble de coordonnées <span class="math notranslate nohighlight">\((x,y)\)</span> des ces points (tailles <span class="math notranslate nohighlight">\(N\times 2\)</span>).</p>
+<ol class="arabic simple" start="3">
+<li><p>Ecrire une fonction qui s’adapte au contraite du fit et effectuer le fit.</p></li>
+<li><p>Quelle est la distance et son incertitude (en pixel) entre les deux étoiles ?</p></li>
+</ol>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="correlation.html">Corrélation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fit d’une image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit_sinu.html">Fit de franges d’interférence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="correlation.html" title="Corrélation"
+              >previous</a> |
+            <a href="fit_sinu.html" title="Fit de franges d’interférence"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/statistiques/fit_image.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

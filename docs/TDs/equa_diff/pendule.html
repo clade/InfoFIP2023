@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Le pendule &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Equation de Schrödinger et états comprimés" href="schrodinger_etat_comprime.html" />
+    <link rel="prev" title="Equations différentielles" href="../equa_diff.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../equa_diff.html" title="Equations différentielles"
+             accesskey="P">previous</a> |
+          <a href="schrodinger_etat_comprime.html" title="Equation de Schrödinger et états comprimés"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="le-pendule">
+<h1>Le pendule<a class="headerlink" href="#le-pendule" title="Permalink to this headline">¶</a></h1>
+<p>On considère l’équation :
+$<span class="math notranslate nohighlight">\( \theta^{\prime\prime} = -\sin{\theta}\)</span>$</p>
+<p>Pour résoudre cette équation, on définit le tableau <span class="math notranslate nohighlight">\(y(t) = (\theta(t), \theta^\prime(t))\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Écrire la fonction Python <code class="docutils literal notranslate"><span class="pre">f(t,</span> <span class="pre">y)</span></code> qui renvoie la dérivée de <span class="math notranslate nohighlight">\(y\)</span></p></li>
+<li><p>Résoudre et tracer le resultat de l’équation différentielle pour les conditions initiales : <span class="math notranslate nohighlight">\(\theta(0) = 2\pi/4\)</span> et <span class="math notranslate nohighlight">\(\theta^\prime(0) = 0\)</span></p></li>
+<li><p>Vérifier que l’énergie totale est conservée</p></li>
+</ol>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Le pendule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger_etat_comprime.html">Equation de Schrödinger et états comprimés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piege_penning.html">Piège de Penning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuage_ions.html">Nuage d’ions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chaine_de_ressorts.html">Chaîne de ressorts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../equa_diff.html" title="Equations différentielles"
+              >previous</a> |
+            <a href="schrodinger_etat_comprime.html" title="Equation de Schrödinger et états comprimés"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/equa_diff/pendule.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

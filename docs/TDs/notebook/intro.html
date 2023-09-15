@@ -1,0 +1,149 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Jupyter notebook &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fichiers avec Python et les notebook" href="fichiers.html" />
+    <link rel="prev" title="Géneralités sur Python" href="../notebook.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../notebook.html" title="Géneralités sur Python"
+             accesskey="P">previous</a> |
+          <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="jupyter-notebook">
+<h1>Jupyter notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>Créer un répertoire pour le cours de cette année et un sour répertoire pour le TD d’aujourd’hui (nommé par exemple TD1 ou yyyy_mm_dd, pour l’année, le mois et le jour). Retrouver ce repertoire dans l’arborescence de votre système de fichier.</p></li>
+<li><p>Dans ce répertoire, créer un notebook.</p></li>
+<li><p>Si vous n’êtes par famillier avec les notebooks, voici quelques astuces :</p>
+<ul>
+<li><p>Utilisation de la touche ‘Tab’ pour la complétion automatique</p></li>
+<li><p>Utiliser la combinaison Ctrl + Entrée pour valider une celluler</p></li>
+<li><p>Menu : Cellule -&gt; type de cellule -&gt; markdown pour créer une zone de texte</p></li>
+</ul>
+</li>
+</ul>
+<p>Par exemple, créer au début de votre notebook les blocs suivants (zone de texte et calcul). Il est possible de rentrer des équations en utilisant le format latex : <code class="docutils literal notranslate"><span class="pre">$E=mc^2$</span></code></p>
+<p>Le format utilisé est le markdown <a class="reference external" href="https://fr.wikipedia.org/wiki/Markdown">fr.wikipedia.org/wiki/Markdown</a>.</p>
+<hr class="docutils" />
+<section id="relativite">
+<h2>Relativité<a class="headerlink" href="#relativite" title="Permalink to this headline">¶</a></h2>
+<p>Tout le monde connait la formule <span class="math notranslate nohighlight">\(E=mc^2\)</span>. Mais que vaut exactement l’énergie de masse d’une pomme de 200g ?</p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">masse_d_une_pomme</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">3E8</span>
+
+<span class="n">energie_masse_pomme</span> <span class="o">=</span> <span class="n">masse_d_une_pomme</span><span class="o">*</span><span class="n">c</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L&#39;énergie de masse d&#39;une pomme est </span><span class="si">{</span><span class="n">energie_masse_pomme</span><span class="si">:</span><span class="s2">.3e</span><span class="si">}</span><span class="s2"> J&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Jupyter notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fichiers.html">Fichiers avec Python et les notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cac40.html">Analyse des données du CAC 40</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../notebook.html" title="Géneralités sur Python"
+              >previous</a> |
+            <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/notebook/intro.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

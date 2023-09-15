@@ -1,0 +1,11 @@
+# Géneralités sur Python
+
+Cette partie contient des exercices sur des notions générales de Python
+
+```{toctree}
+:maxdepth: 2
+
+notebook/intro.ipynb
+notebook/fichiers.ipynb
+notebook/cac40.ipynb
+```

@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Equation de Schrödinger et états comprimés &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Piège de Penning" href="piege_penning.html" />
+    <link rel="prev" title="Le pendule" href="pendule.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="pendule.html" title="Le pendule"
+             accesskey="P">previous</a> |
+          <a href="piege_penning.html" title="Piège de Penning"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="equation-de-schrodinger-et-etats-comprimes">
+<h1>Equation de Schrödinger et états comprimés<a class="headerlink" href="#equation-de-schrodinger-et-etats-comprimes" title="Permalink to this headline">¶</a></h1>
+<p>Ce TD a pour but de simuler numériquement le TD “Etats quantiques d’atomes de césium dans un piège harmonique” du cours de physique quantique.</p>
+<p>On prendra <span class="math notranslate nohighlight">\(m=1\)</span>, <span class="math notranslate nohighlight">\(\hbar=1\)</span>. On considère de plus un piège harmonique de pulsation <span class="math notranslate nohighlight">\(\omega = 2\pi\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Ecrire (avec un papier et un crayon!) l’équation de Schrödinger.</p></li>
+<li><p>Ecrire (avec un papier et un crayon) la fonction d’onde de l’état fondamental du piège harmonique.</p></li>
+</ol>
+<p>On va échantillonner l’espace entre -5 et 5 avec un pas de 0.02</p>
+<ol class="arabic simple" start="3">
+<li><p>Ecrire une fonction Python qui calcule un état Gaussien d’écart type <span class="math notranslate nohighlight">\(\sigma_x\)</span> de vitesse <span class="math notranslate nohighlight">\(v_0\)</span> et centré en <span class="math notranslate nohighlight">\(x_0\)</span>.</p></li>
+<li><p>Ecrire une fonction Python qui calcule le Laplacien d’une fonction d’onde <span class="math notranslate nohighlight">\(\psi\)</span>.</p></li>
+<li><p>Ecrire la fonction Python <code class="docutils literal notranslate"><span class="pre">psi_prime(t,</span> <span class="pre">psi,</span> <span class="pre">V)</span></code> qui donne la dérivée de psi. Vérifier graphiquement que l’on a bien <span class="math notranslate nohighlight">\(\frac{\partial \psi}{\partial t} = -i\omega/2 \psi\)</span> pour l’état fondamental du piège.</p></li>
+<li><p>Résoudre numériquement sur un temps <span class="math notranslate nohighlight">\(t=1.5\)</span> l’équation de Schrödinger pour différents états initiaux : par exemple un paquet centré en <span class="math notranslate nohighlight">\(-2\)</span> initialement au repos et de largeur <span class="math notranslate nohighlight">\(0.3\)</span>. On utilisera la méthode <code class="docutils literal notranslate"><span class="pre">RK23</span></code>.</p></li>
+<li><p>Ecrire une fonction python <code class="docutils literal notranslate"><span class="pre">moments_x(psi)</span></code> qui retourne <span class="math notranslate nohighlight">\(\mathbb{E}(X)\)</span> (position moyenne) et <span class="math notranslate nohighlight">\(\mathbb{E}((X - \mathbb{E}(X))^2)\)</span> (carré de la largeur du paquet)</p></li>
+<li><p>Tracer ces moments en fonction de t.</p></li>
+<li><p>Question 7 et 8, mais avec l’impulsion. Dans le calcul de l’espérance, on suprimera les parties hautes impulsions qui sont dûes à du bruit numérique</p></li>
+<li><p>Pendant 0.5 seconde, on laisse la paquet évoluer librement (V=0) puis pendant une durée <span class="math notranslate nohighlight">\(t&lt;0.5\)</span>, le paquet évolue avec le potentiel harmonique. Tracer la largeur en impulsion en fonction de cette durée.</p></li>
+</ol>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pendule.html">Le pendule</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Equation de Schrödinger et états comprimés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piege_penning.html">Piège de Penning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuage_ions.html">Nuage d’ions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chaine_de_ressorts.html">Chaîne de ressorts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="pendule.html" title="Le pendule"
+              >previous</a> |
+            <a href="piege_penning.html" title="Piège de Penning"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/equa_diff/schrodinger_etat_comprime.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

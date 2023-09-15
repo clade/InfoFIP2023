@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Modèle d’Ising &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Analyse de spectres de l’hydrogène" href="hydrogene.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="hydrogene.html" title="Analyse de spectres de l’hydrogène"
+             accesskey="P">previous</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="modele-d-ising">
+<h1>Modèle d’Ising<a class="headerlink" href="#modele-d-ising" title="Permalink to this headline">¶</a></h1>
+<p>Un système magnétique peut-être décrit de façon simple avec l’Hamiltonien suivant (modèle d’Heisenberg):</p>
+<div class="amsmath math notranslate nohighlight" id="equation-62a2b68f-37a7-40d9-9cbe-4e477c543535">
+<span class="eqno">(1)<a class="headerlink" href="#equation-62a2b68f-37a7-40d9-9cbe-4e477c543535" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    H = -\frac{4}{h^2}\sum_{i&lt;j} J_{ij} \vec{s}_i \cdot \vec{s}_j - \gamma\vec{B}\cdot\sum_i \vec{s}_i
+\end{equation}\]</div>
+<p>Dans cet exercice, nous allons nous intéresser à un modèle encore plus simple: celui d’un ensemble de spin 1/2 et ne considérer que l’intéraction entre les spins voisins les plus proches. En écrivant <span class="math notranslate nohighlight">\(\vec{s}_i = \frac{\hbar}{2}S_i\)</span> (<span class="math notranslate nohighlight">\(S_i=\pm1\)</span>), on obtient le modèle d’Ising décrit par l’Hamiltonien:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9b204727-def3-4ff3-9504-7352fc304454">
+<span class="eqno">(2)<a class="headerlink" href="#equation-9b204727-def3-4ff3-9504-7352fc304454" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    H = -J\sum_{\langle i,j\rangle} S_i S_j - \mu B \sum_i S_i
+\end{equation}\]</div>
+<p>où la notation <span class="math notranslate nohighlight">\(\langle i,j\rangle\)</span> denote la somme sur les paires des plus proches voisins.</p>
+<p>Nous allons dans cet exercice simuler ce système à l’aide d’un algorithme appelé “Metrolopolis”. Celui-ci est détaillé sur la page wikipedia dédié au model d’Ising. https://en.wikipedia.org/wiki/Ising_model . Nous prendrons un champ magnétique nul.</p>
+<p>L’état du système sera représenté par un tableau de taille <span class="math notranslate nohighlight">\(N\times N\)</span>. Nous utiliserons des conditions périodiques (i.e. le spin à la position <span class="math notranslate nohighlight">\((N-1, j)\)</span> est couplé au spin à la position <span class="math notranslate nohighlight">\((0, j)\)</span>, etc.</p>
+<ol class="arabic">
+<li><p>Écrire une fonction <code class="docutils literal notranslate"><span class="pre">energy(state)</span></code> qui retourne l’énergie totale du système magnétique dans l’état ‘state’.</p></li>
+<li><p>Écrire une fonction <code class="docutils literal notranslate"><span class="pre">delta_energy(state,</span> <span class="pre">i,</span> <span class="pre">j)</span></code> qui retourne la difference d’énergie induite par le flipping du spin de coordonnees <code class="docutils literal notranslate"><span class="pre">(i,</span> <span class="pre">j)</span></code>. Nous rappellons que seule l’intéraction entre plus proches voisins est considérée.</p></li>
+<li><p>Écrire une fonction <code class="docutils literal notranslate"><span class="pre">metropolis(state,</span> <span class="pre">beta,</span> <span class="pre">M)</span></code> qui retourne l’état du système magnétique après avoir implémenté M fois l’algorithme de Metrolopolis. Une réalisation de l’algorithme correspond à choisir un point de manière aléatoire, à calculer la différence d’énergie induite par le flip de celui-ci. Si cette énergie est négative, alors on considère que le spin flip. Si la différence d’énergie est positive, on autorise le spin flip selon la probabilité: <span class="math notranslate nohighlight">\(e^{-\beta \Delta E}\)</span>.</p></li>
+<li><p>Afficher l’image pour <span class="math notranslate nohighlight">\(\beta=1\)</span>, après 1000, 1 000 000, 100 000 000 itérations. Vous pouvez aussi faire une animation. On prendra comme état initial, 300x300 spins de valeur aléatoire <span class="math notranslate nohighlight">\(\pm 1\)</span>. Il faudra utiliser numba.</p></li>
+<li><p>Nous allons regarder l’énergie moyenne du système. Modifier votre fonction metropolis, de façon à pouvoir enregistrer l’énergie moyenne du système pendant l’évolution. Pour éviter des problèmes de mémoires, nous vous conseillons de l’enregistrer uniquement tous les <span class="math notranslate nohighlight">\(N^2\)</span> réalisations.</p>
+<p>Tracer l’énergie du système au cours du temps. Observer le temps de convergence du système (on prendra <span class="math notranslate nohighlight">\(\beta=1\)</span>, <span class="math notranslate nohighlight">\(\beta=0.2\)</span> et <span class="math notranslate nohighlight">\(\beta=0.1\)</span>). En plus de la convergence, qu’observez-vous pour <span class="math notranslate nohighlight">\(\beta=0.2\)</span> ?</p>
+</li>
+<li><p>Tracer l’énergie moyenne en fonction de <span class="math notranslate nohighlight">\(\beta\)</span>. Vous pourrez aussi accélérer votre calcul en l’évaluant sur plusieurs noyaux de votre ordinateur, à l’aide du décorateur: <code class="docutils literal notranslate"><span class="pre">&#64;jit(parallel=True)</span></code> et de la boucle <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">beta</span> <span class="pre">in</span> <span class="pre">numba.prange(xxx):</span></code>.</p></li>
+<li><p>De même, tracer les fluctuations d’énergie en fonction <span class="math notranslate nohighlight">\(\beta\)</span></p></li>
+<li><p>Comme vous l’avez vu en cours de Physique Statistique, il existe une solution analytique au modèle d’Ising en deux dimensions:</p></li>
+</ol>
+<p><img alt="alt text" src="../_images/solution_ising.JPG" /></p>
+<p>Comment calculer l’énergie moyenne du système à partir de la fonction de partition <span class="math notranslate nohighlight">\(Z\)</span> ? Evaluez numériquement cette expression et comparez à votre simulation metrolopolis.</p>
+<p>Si vous avez le temps, même question pour les fluctuations d’énergie</p>
+<ol class="arabic simple" start="9">
+<li><p>La transition de phase a lieu pour <span class="math notranslate nohighlight">\(T\)</span> qui vérifie:</p></li>
+</ol>
+<div class="amsmath math notranslate nohighlight" id="equation-08e1f5a3-8201-4e4f-a1bb-fbbfb8d88d06">
+<span class="eqno">(3)<a class="headerlink" href="#equation-08e1f5a3-8201-4e4f-a1bb-fbbfb8d88d06" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+    \sinh\left(\frac{2J}{kT}\right)= 1
+\end{equation}\]</div>
+<p>Résolvez cette equation numériquement (on pourra utiliser la fonction root de scipy) et comparez aux résultats de la question précédente.</p>
+<p>On observe des fluctuations importantes pour la courbe <span class="math notranslate nohighlight">\(\beta=0.2\)</span></p>
+<p>L’énergie moyenne est donnée par :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-59107ea8-ae9f-491f-9fc9-4581755dc2b0">
+<span class="eqno">(4)<a class="headerlink" href="#equation-59107ea8-ae9f-491f-9fc9-4581755dc2b0" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\left&lt;E\right&gt; = -\frac{\partial\ln Z}{\partial \beta}
+\end{equation}\]</div>
+<p>Les fluctuations d’énergie par la dérivée seconde.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../problemes.html">Problèmes</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="hydrogene.html">Analyse de spectres de l’hydrogène</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Modèle d’Ising</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="hydrogene.html" title="Analyse de spectres de l’hydrogène"
+              >previous</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/problemes/ising.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

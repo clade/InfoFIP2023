@@ -1,0 +1,12 @@
+# Numpy
+
+```{toctree}
+:maxdepth: 2
+
+./numpy/simpson.ipynb
+./numpy/volume_sphere.ipynb
+./numpy/covid.ipynb
+./numpy/gravimetre.ipynb
+./numpy/vigicrue.ipynb
+./numpy/loi_de_poisson.ipynb
+```

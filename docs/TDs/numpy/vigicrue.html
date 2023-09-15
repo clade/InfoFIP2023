@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Vigicrue &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loi de poisson et générateur de nombre aléatoire" href="loi_de_poisson.html" />
+    <link rel="prev" title="Analyse de données de gravimètres." href="gravimetre.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="gravimetre.html" title="Analyse de données de gravimètres."
+             accesskey="P">previous</a> |
+          <a href="loi_de_poisson.html" title="Loi de poisson et générateur de nombre aléatoire"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="vigicrue">
+<h1>Vigicrue<a class="headerlink" href="#vigicrue" title="Permalink to this headline">¶</a></h1>
+<p>Le réseau de prévision des crues, dénommé Vigicrues, publie sur internet le relevé des stations situés le long de fleuves et rivières de France.</p>
+<p>Les données sont fournies au format JSON. Nous avons téléchargé un fichier qui contient des données d’une station située en Indre-et-loire. Ce fichier contient un dictionnaire</p>
+<ol class="arabic simple">
+<li><p>Lire le fichier. Quels sont les clés de ce dictionnaire ?</p></li>
+<li><p>On s’interesse au contenu “Serie” de ce dictionnaire qui est aussi un dictionnaire. La clé “LbStationHydro” contient la commune où la mesure à été prise. Donner le nom de cette commune ?</p></li>
+</ol>
+<p>Les données qui nous interesse sont repérées par le clé “ObssHydro”. La variable “DtObsHydro” contient le temps UNIX en milisecondes (temps depuis le 1 janvier 1970). La variable “ResObsHydro” la hauteur par rapport à une référence en <span class="math notranslate nohighlight">\(m\)</span>. Le jeu de donnée commence vers le 12 avril 2023 (temps unix de 1681257600 s)</p>
+<ol class="arabic simple" start="3">
+<li><p>Extraire le temps et l’enregistrer en heure par rapport au 12 avril 2023.</p></li>
+<li><p>Tracer la hauteur en fonction du temps par rapport à l’instant présent</p></li>
+<li><p>A quel jour correspond le maximum sur cette période ?</p></li>
+</ol>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simpson.html">Formule de Simpson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_sphere.html">Volume d’une sphère</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covid.html">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravimetre.html">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Vigicrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loi_de_poisson.html">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="gravimetre.html" title="Analyse de données de gravimètres."
+              >previous</a> |
+            <a href="loi_de_poisson.html" title="Loi de poisson et générateur de nombre aléatoire"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/vigicrue.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

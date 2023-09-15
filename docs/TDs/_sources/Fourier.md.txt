@@ -1,0 +1,8 @@
+# Transformée de Fourier
+```{toctree}
+:maxdepth: 2
+
+./Fourier/exemple_simple.ipynb
+./Fourier/machine_a_laver.ipynb
+./Fourier/verres_musicaux.ipynb
+```

@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chaîne de ressorts &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transformée de Fourier" href="../Fourier.html" />
+    <link rel="prev" title="Nuage d’ions" href="nuage_ions.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="nuage_ions.html" title="Nuage d’ions"
+             accesskey="P">previous</a> |
+          <a href="../Fourier.html" title="Transformée de Fourier"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="chaine-de-ressorts">
+<h1>Chaîne de ressorts<a class="headerlink" href="#chaine-de-ressorts" title="Permalink to this headline">¶</a></h1>
+<p><em>Examen 2022</em></p>
+<p>On considère pour commencer une masse <span class="math notranslate nohighlight">\(m\)</span> suspendue à un ressort de raideur <span class="math notranslate nohighlight">\(k\)</span> et de longueur au repos <span class="math notranslate nohighlight">\(L\)</span>. A l’équilibre la masse est à la position <span class="math notranslate nohighlight">\(z_{eq} = -L - a_{eq}\)</span> où <span class="math notranslate nohighlight">\(a_{eq}\)</span> est l’allongement du ressort. On fera attention aux signes !</p>
+<a class="reference internal image-reference" href="../_images/ressorts.png"><img alt="Chaîne de ressort" class="align-center" src="../_images/ressorts.png" style="width: 70%;" /></a>
+<p>On prendra <span class="math notranslate nohighlight">\(k = 10\)</span> N/m, <span class="math notranslate nohighlight">\(m=0.03\)</span> kg, <span class="math notranslate nohighlight">\(g = 9.81\)</span> m/s<span class="math notranslate nohighlight">\(^2\)</span> et <span class="math notranslate nohighlight">\(L=30\)</span> cm.</p>
+<ol class="arabic simple">
+<li><p>Ecrire une fonction Python qui renvoie l’accélération de la masse en fonction de sa position <span class="math notranslate nohighlight">\(z\)</span> et du champ de gravité <span class="math notranslate nohighlight">\(g\)</span>.</p></li>
+</ol>
+<ol class="arabic simple" start="2">
+<li><p>Résoudre numériquement l’équation différentielle avec pour condition initiale <span class="math notranslate nohighlight">\(z=-L\)</span> et <span class="math notranslate nohighlight">\(v_0=0.1\)</span> m/s et donner la position et la vitesse après <span class="math notranslate nohighlight">\(0.1\)</span> s.</p></li>
+</ol>
+<ol class="arabic simple" start="3">
+<li><p>Tracer la position sur environ 10 périodes.</p></li>
+</ol>
+<ol class="arabic simple" start="4">
+<li><p>Vérifier que l’énergie totale du système est conservée.</p></li>
+</ol>
+<ol class="arabic simple" start="5">
+<li><p>Ajuster votre graphique par une sinusoïde et vérifier que l’on a bien la relation <span class="math notranslate nohighlight">\(\omega = \sqrt{k/m}\)</span>.</p></li>
+</ol>
+<ol class="arabic simple" start="6">
+<li><p>Retrouver la fréquence d’oscillation cette fois en calculant la transformée de Fourier numérique de la position. Comment améliorer la résolution de la valeur déduite ?</p></li>
+</ol>
+<p>On considère maintenant une chaîne de masses reliées par des ressorts. On prendre <span class="math notranslate nohighlight">\(N=10\)</span> masses numérotées de <span class="math notranslate nohighlight">\(0\)</span> à <span class="math notranslate nohighlight">\(N-1\)</span>.</p>
+<p>On note <span class="math notranslate nohighlight">\(z_i(t)\)</span> la position de la masse numéro <span class="math notranslate nohighlight">\(i\)</span> et <span class="math notranslate nohighlight">\(l_i(t)\)</span> la longueur de chaque ressort (<span class="math notranslate nohighlight">\(l_i(t)&gt;0\)</span>). On a <span class="math notranslate nohighlight">\(z_i(t) = -\sum_{j=0}^{j=i} l_j(t)\)</span></p>
+<ol class="arabic simple" start="7">
+<li><p>Ecrire une fonction qui à partir d’un tableau des positions <span class="math notranslate nohighlight">\(z_i\)</span> renvoit un tableau des alongements <span class="math notranslate nohighlight">\(a_i =l_i - L\)</span>.</p></li>
+</ol>
+<p>L’accélération d’une masse <span class="math notranslate nohighlight">\(i\)</span> est donnée par :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-320c5249-5b57-436d-b385-85cc919f214b">
+<span class="eqno">(1)<a class="headerlink" href="#equation-320c5249-5b57-436d-b385-85cc919f214b" title="Permalink to this equation">¶</a></span>\[\begin{equation} \frac{d^2 z_i}{dt^2} = -g + \frac{k}{m}(a_i - a_{i+1})
+\end{equation}\]</div>
+<p>étant entendu que pour la dernière masse, il n’y a pas de terme en <span class="math notranslate nohighlight">\(a_{i+1}\)</span>.</p>
+<ol class="arabic simple" start="8">
+<li><p>Ecrire une fonction qui renvoie sous forme d’un tableau l’accélération en fonction des positions <span class="math notranslate nohighlight">\(z_i\)</span>.</p></li>
+</ol>
+<p>À l’équilibre, en présence du champ de gravité, l’alongement <span class="math notranslate nohighlight">\(a_i\)</span> est donné par la masse totale située en dessous (<span class="math notranslate nohighlight">\(j\ge i\)</span>) : <span class="math notranslate nohighlight">\(a_i^\mathrm{eq} = (N-i)\frac{mg}{k}\)</span>.</p>
+<ol class="arabic simple" start="9">
+<li><p>Vérifier que pour cette position, l’accélération est bien nulle. (Il s’agit ici de tester la fonction écrite à la question précédente.)</p></li>
+</ol>
+<ol class="arabic simple" start="10">
+<li><p>Résoudre l’équation différentielle en prenant comme conditions initiales, pour chacune des masses, une vitesse nulle et une position déplacée de 20 cm vers le haut par rapport à sa position d’équilibre en présence du champ de gravité.</p></li>
+</ol>
+<ol class="arabic simple" start="11">
+<li><p>Qu’observez-vous dans le spectre du mouvement ?</p></li>
+</ol>
+<ol class="arabic simple" start="12">
+<li><p>On considère maintenant qu’à l’instant <span class="math notranslate nohighlight">\(t=0\)</span>, le système est à l’équilibre. Cependant, on coupe le ressort numéro “0”. Ecrire une nouvelle fonction qui renvoit l’accélération en fonction des positions.</p></li>
+</ol>
+<ol class="arabic simple" start="13">
+<li><p>Résoudre l’équation différentielle. Tracer la position de la masse numéro <span class="math notranslate nohighlight">\(N-1\)</span> en fonction de <span class="math notranslate nohighlight">\(t\)</span> jusqu’à environ 0.4 s. Qu’observe-t-on ?</p></li>
+</ol>
+<ol class="arabic simple" start="14">
+<li><p>Tracez la position des masses numéro 0, 4 et 9 dans le référentiel en chute libre. Tracer aussi dans ce référentiel la position du centre de masse (position moyenne des masses).</p></li>
+</ol>
+<p><strong>Fonctions utilisées</strong></p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">rfft</span><span class="p">,</span> <span class="n">rfftfreq</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pendule.html">Le pendule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger_etat_comprime.html">Equation de Schrödinger et états comprimés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piege_penning.html">Piège de Penning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuage_ions.html">Nuage d’ions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Chaîne de ressorts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="nuage_ions.html" title="Nuage d’ions"
+              >previous</a> |
+            <a href="../Fourier.html" title="Transformée de Fourier"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/equa_diff/chaine_de_ressorts.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

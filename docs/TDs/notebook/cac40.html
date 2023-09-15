@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Analyse des données du CAC 40 &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Numpy" href="../numpy.html" />
+    <link rel="prev" title="Fichiers avec Python et les notebook" href="fichiers.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+             accesskey="P">previous</a> |
+          <a href="../numpy.html" title="Numpy"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="analyse-des-donnees-du-cac-40">
+<h1>Analyse des données du CAC 40<a class="headerlink" href="#analyse-des-donnees-du-cac-40" title="Permalink to this headline">¶</a></h1>
+<p>L’objectif de cet exercice est de manipuler des données à l’aide de liste et de dictionnaire (sans utiliser de tableaux numpy).</p>
+<p>Télécharger depuis le site https://fr.finance.yahoo.com/quote/%5EFCHI/history/ les données du CAC 40 depuis 3 ans. Le fichier obtenu contient : la date, le cours d’ouverture, le plus haut, le plus bas, le cours de clôture, le cours de clôture ajusté et le volume de titres échangés. Ce contenu est séparé par des <code class="docutils literal notranslate"><span class="pre">,</span></code>.</p>
+<p>Remarque : la méthode <code class="docutils literal notranslate"><span class="pre">split</span></code> d’une chaine de caractère permet de la séparer en plusieurs sous chaînes. Par exemple :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;12,bonjour,3.14&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>On suprimera la première ligne du fichier.</p>
+<ol class="arabic simple">
+<li><p>Afficher les 10 premières lignes du fichier</p></li>
+<li><p>Créer une liste contenant le plus haut de la bourse jour par jour. Qu’elle est la valeur la plus haute du CAC 40 ?</p></li>
+<li><p>Écrire une fonction qui prend le jour, le mois et l’année et renvoie une chaîne de caractère pour la date sous la forme : aaaa-mm-jj (par exemple 1515-09-13)</p></li>
+<li><p>Écrire une fonction qui renvoie le plus bas d’une journée à partir du jour, du mois et de l’année. Cette fonction renverra une exception si le jour n’existe pas.</p></li>
+<li><p>Plutôt qu’une liste, on va utiliser un dictionnaire dont la clé sera la date. Créer un dictionnaire qui contiendra pour chaque jour un dictionnaire avec pour clé : ‘haut’, ‘bas’, ‘ouverture’, ‘fermeture’, ‘volume’. Par exemple on pourra utiliser :
+<code class="docutils literal notranslate"><span class="pre">cac_40['2020-10-05']['haut']</span></code></p></li>
+<li><p>Enregistrer ce dictionnaire dans un fichier au format json. Vérifier que vous pouvez l’ouvrir !</p></li>
+<li><p>Regarder la documentation de la fonction <code class="docutils literal notranslate"><span class="pre">parse</span></code> du module <code class="docutils literal notranslate"><span class="pre">dateutil.parser</span></code> et trouver le moyen de convertir une date sous la forme <code class="docutils literal notranslate"><span class="pre">2020-10-05</span></code> en un nombre (nombre de jour ou nombre de seconde depuis une date donnée).</p></li>
+<li><p>Tracer l’évolution au cours du temps de CAC 40.</p></li>
+</ol>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Jupyter notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fichiers.html">Fichiers avec Python et les notebook</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analyse des données du CAC 40</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+              >previous</a> |
+            <a href="../numpy.html" title="Numpy"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/notebook/cac40.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,12 @@
+Exercices Python
+================
+
+.. toctree::
+   :maxdepth: 2
+
+   notebook
+   numpy
+   statistiques
+   equa_diff
+   Fourier
+   problemes

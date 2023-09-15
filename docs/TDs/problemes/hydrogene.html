@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Analyse de spectres de l’hydrogène &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Modèle d’Ising" href="ising.html" />
+    <link rel="prev" title="Problèmes" href="../problemes.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../problemes.html" title="Problèmes"
+             accesskey="P">previous</a> |
+          <a href="ising.html" title="Modèle d’Ising"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>[Fichier source : <a class="reference download internal" download="" href="../_downloads/2fce0f68c7f15367398d65fa1c7498ee/hydrogene.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">hydrogene.ipynb</span></code></a>]</p>
+<section class="tex2jax_ignore mathjax_ignore" id="analyse-de-spectres-de-l-hydrogene">
+<h1>Analyse de spectres de l’hydrogène<a class="headerlink" href="#analyse-de-spectres-de-l-hydrogene" title="Permalink to this headline">¶</a></h1>
+<p>Les données que nous allons analyser sont des données de spectroscopie de l’atome de deutérieum (l’isotope de l’hydrogène de masse atomique 2). Dans le modèle simple de Bohr, les niveaux d’énergies sont donnés par :</p>
+<div class="math notranslate nohighlight">
+\[
+E_n = -hc\frac{R_D}{n^2}
+\]</div>
+<p>où <span class="math notranslate nohighlight">\(h\)</span> et la constante de Planck, <span class="math notranslate nohighlight">\(c\)</span> la célérité de la lumière et <span class="math notranslate nohighlight">\(R_D\)</span> la constante de Rydberg du deutérium qui est reliée à la constante de Rydberg <span class="math notranslate nohighlight">\(R_\infty\)</span> par :</p>
+<div class="math notranslate nohighlight">
+\[ 
+R_D = \frac{R_\infty}{1+\frac{m_e}{m_D}}
+\]</div>
+<p>où <span class="math notranslate nohighlight">\(m_e\)</span> est la masse de l’électron et <span class="math notranslate nohighlight">\(m_D\)</span> celle du Deuteron (Noyau de l’atome de deutérium : un proton et un neutron). La constante <span class="math notranslate nohighlight">\(R_\infty\)</span> correspond à la constante de Rydberg pour un noyau de masse infinie.</p>
+<p>La transition que l’on étudie est la transition entre les niveau <span class="math notranslate nohighlight">\(n=1\)</span> et <span class="math notranslate nohighlight">\(n=3\)</span>. Sa fréquence vaut :</p>
+<div class="math notranslate nohighlight">
+\[
+\nu_\mathrm{Bohr} = \frac{E_3 - E_1}{h}
+\]</div>
+<ul class="simple">
+<li><p>Constante de rydberg : <span class="math notranslate nohighlight">\(R_\infty = 10973731.56816\)</span> m<span class="math notranslate nohighlight">\(^{-1}\)</span></p></li>
+<li><p>Rapport de masse : <span class="math notranslate nohighlight">\(\frac{m_D}{m_e} = 3670.4829679\)</span></p></li>
+<li><p>Vitesse de la lumière dans le vide: <span class="math notranslate nohighlight">\(c = 299792458\)</span> m/s</p></li>
+</ul>
+<ol class="arabic simple">
+<li><p>Calculer la fréquence de la transition dans le modèle de Bohr et donner sa valeur en MHz. On formatera la valeur pour avoir trois chiffres après la virgule (précision au kHz).</p></li>
+</ol>
+<p>Le principe de la spectroscopie consiste a illuminer un jet d’atomes à l’aide d’un laser dont on connait la fréquence et à mesurer la fluorescence des atomes. Cette fluorescence étant très faible, on utilise un compteur de photon pour la mesurer.</p>
+<p>Les données sont dans le fichier <a class="reference download internal" download="" href="../_downloads/bf1e83ea6652b8987fe92b19ba7a02b2/data_hydrogene_simple.txt"><code class="xref download docutils literal notranslate"><span class="pre">data/data_hydrogene_simple.txt</span></code></a>. Il s’agit d’un fichier texte simple. Il comprend une colonne qui correspond à la fréquence (mesurée) du laser de spectroscopie et une colonne qui correspond au nombre de photons détectés sur une seconde de mesure. Ce nombre est proportionnel au nombre de photons absorbés par les atomes d’hydrogènes.</p>
+<ol class="arabic simple" start="2">
+<li><p>Lire et afficher les données.</p></li>
+</ol>
+<p>On va ajuster le profile par une fonction lorentzienne :</p>
+<div class="math notranslate nohighlight">
+\[ 
+a + \frac{b}{1+ \left(\frac{f-f_0}{\Delta f}\right)^2}
+\]</div>
+<p>où <span class="math notranslate nohighlight">\(a\)</span> est un offset, <span class="math notranslate nohighlight">\(b\)</span> une amplitude, <span class="math notranslate nohighlight">\(f_0\)</span> la fréquence centrale et <span class="math notranslate nohighlight">\(\Delta f\)</span> la largeur en fréquence.</p>
+<ol class="arabic simple" start="3">
+<li><p>Faire un ajustement des données par une lorentzienne (que l’on représentera graphiquement).</p></li>
+</ol>
+<p>Les données sont prises par rapport à une fréquence de référence, c’est à dire que la fréquence du laser est la somme entre la fréquence de référence (<span class="math notranslate nohighlight">\(f_\mathrm{ref} = 2923538429.3\)</span> MHz) et la fréquence des données.</p>
+<ol class="arabic simple" start="4">
+<li><p>Donner la valeur de la fréquence absolue <span class="math notranslate nohighlight">\(\nu\)</span> ainsi que l’incertitude absolue <span class="math notranslate nohighlight">\(\sigma_\nu\)</span> et relative <span class="math notranslate nohighlight">\(\sigma \nu / \nu\)</span>) de la mesure du pic. La différence par rapport à la valeur du modèle de Bohr est dûe a des corrections supplémentaires (effet du spin de l’électron, de la taille fini du noyau, effets relativistes, ou encore de la polarization du vide qui peuvent être calculés à l’aide de l’Electrodynamique Quantique). Calculer cet écart.</p></li>
+</ol>
+<ol class="arabic simple" start="5">
+<li><p>Les données correspondent en réalité à 6 spectres de N points qui ont été enregistrés à la suite. Ajuster chacun des 6 spectres pour en déduire leurs fréquences absolues et leurs incertitudes que l’on affichera.</p></li>
+<li><p>Tracer avec des barres d’erreurs les points sur un graphique ayant comme axe des abscisses le numéro du spectre (1, 2, .., 6). Représenter sur ce même graphique la valeur moyenne des fréquences <span class="math notranslate nohighlight">\(\bar{\nu}\)</span> et son écart type <span class="math notranslate nohighlight">\(\sigma_{\nu}\)</span> (on utilisera une ligne continue rouge pour la moyenne et des lignes discontinues noires pour <span class="math notranslate nohighlight">\(\bar{\nu}\pm\sigma_{\nu}\)</span>). Est-ce que l’écart type des 6 fréquences est en accord avec l’incertitude obtenue à partir de l’ajustement de l’ensemble des données (à la question 4).</p></li>
+</ol>
+<p>Les données du fichier <code class="docutils literal notranslate"><span class="pre">data_hydrogene_simple.txt</span></code> sont en fait le centre d’un spectre plus large. Le fichier <a class="reference download internal" download="" href="../_downloads/d4f0ca0f6465b4549253fb540ba8e0db/data_complete.dat"><code class="xref download docutils literal notranslate"><span class="pre">data/data_complete.dat</span></code></a> contient tous les points de mesures. Ce fichier est formaté légèrement différement (il contient un en-tête et un ‘;’ comme séparateur).</p>
+<ol class="arabic simple" start="7">
+<li><p>En utilsant les options de <code class="docutils literal notranslate"><span class="pre">np.loadtxt</span></code> lire le fichier et tracer les points.</p></li>
+</ol>
+<p>Ce spectre peut être modélisé par la somme d’une gaussienne (fond large) et d’une lorentzienne (étroite).</p>
+<ol class="arabic simple" start="8">
+<li><p>Faire l’ajustement. Donner la valeur de la position du centre de la lorentzienne étroite et son écart type. Comparer ces résultats à ceux obtenus à la question 4.</p></li>
+</ol>
+<ol class="arabic simple" start="8">
+<li><p>A l’aide d’un masque, ajuster à l’aide d’une lorentizienne uniquement les points obtenus pour une fréquence laser comprise entre -2 et 2 MHz. Comparez avec la question 4.</p></li>
+</ol>
+<p><strong>Fonctions utilisées</strong></p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">errorbar</span>
+<span class="c1"># ou ax.errorbar</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../problemes.html">Problèmes</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analyse de spectres de l’hydrogène</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ising.html">Modèle d’Ising</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../problemes.html" title="Problèmes"
+              >previous</a> |
+            <a href="ising.html" title="Modèle d’Ising"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/problemes/hydrogene.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
