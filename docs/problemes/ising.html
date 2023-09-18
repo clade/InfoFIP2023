@@ -47,13 +47,13 @@
   <section class="tex2jax_ignore mathjax_ignore" id="modele-d-ising">
 <h1>Modèle d’Ising<a class="headerlink" href="#modele-d-ising" title="Permalink to this headline">¶</a></h1>
 <p>Un système magnétique peut-être décrit de façon simple avec l’Hamiltonien suivant (modèle d’Heisenberg):</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0f329015-4323-407f-9237-7058e12e88a1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-0f329015-4323-407f-9237-7058e12e88a1" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4e7d2e85-5e4d-4dc2-a9ad-83e079451fae">
+<span class="eqno">(1)<a class="headerlink" href="#equation-4e7d2e85-5e4d-4dc2-a9ad-83e079451fae" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     H = -\frac{4}{h^2}\sum_{i&lt;j} J_{ij} \vec{s}_i \cdot \vec{s}_j - \gamma\vec{B}\cdot\sum_i \vec{s}_i
 \end{equation}\]</div>
 <p>Dans cet exercice, nous allons nous intéresser à un modèle encore plus simple: celui d’un ensemble de spin 1/2 et ne considérer que l’intéraction entre les spins voisins les plus proches. En écrivant <span class="math notranslate nohighlight">\(\vec{s}_i = \frac{\hbar}{2}S_i\)</span> (<span class="math notranslate nohighlight">\(S_i=\pm1\)</span>), on obtient le modèle d’Ising décrit par l’Hamiltonien:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0d76655a-1beb-407e-9fd9-d8ad808d0bd8">
-<span class="eqno">(2)<a class="headerlink" href="#equation-0d76655a-1beb-407e-9fd9-d8ad808d0bd8" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-7fbf38c0-0d34-4b7e-9aed-3234b934998b">
+<span class="eqno">(2)<a class="headerlink" href="#equation-7fbf38c0-0d34-4b7e-9aed-3234b934998b" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     H = -J\sum_{\langle i,j\rangle} S_i S_j - \mu B \sum_i S_i
 \end{equation}\]</div>
 <p>où la notation <span class="math notranslate nohighlight">\(\langle i,j\rangle\)</span> denote la somme sur les paires des plus proches voisins.</p>
@@ -77,15 +77,15 @@
 <ol class="arabic simple" start="9">
 <li><p>La transition de phase a lieu pour <span class="math notranslate nohighlight">\(T\)</span> qui vérifie:</p></li>
 </ol>
-<div class="amsmath math notranslate nohighlight" id="equation-c07cc33d-c5bf-4135-82d3-aedab8a2f507">
-<span class="eqno">(3)<a class="headerlink" href="#equation-c07cc33d-c5bf-4135-82d3-aedab8a2f507" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-bd3d2f2f-c987-4791-a619-48651a2ba28c">
+<span class="eqno">(3)<a class="headerlink" href="#equation-bd3d2f2f-c987-4791-a619-48651a2ba28c" title="Permalink to this equation">¶</a></span>\[\begin{equation}
     \sinh\left(\frac{2J}{kT}\right)= 1
 \end{equation}\]</div>
 <p>Résolvez cette equation numériquement (on pourra utiliser la fonction root de scipy) et comparez aux résultats de la question précédente.</p>
 <p>On observe des fluctuations importantes pour la courbe <span class="math notranslate nohighlight">\(\beta=0.2\)</span></p>
 <p>L’énergie moyenne est donnée par :</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6e7bef0a-f683-4242-acbd-e9066e95e64d">
-<span class="eqno">(4)<a class="headerlink" href="#equation-6e7bef0a-f683-4242-acbd-e9066e95e64d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-6c00b528-2a05-4aa3-9967-47de9b6dfcec">
+<span class="eqno">(4)<a class="headerlink" href="#equation-6c00b528-2a05-4aa3-9967-47de9b6dfcec" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \left&lt;E\right&gt; = -\frac{\partial\ln Z}{\partial \beta}
 \end{equation}\]</div>
 <p>Les fluctuations d’énergie par la dérivée seconde.</p>

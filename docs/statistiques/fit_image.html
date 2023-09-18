@@ -52,9 +52,9 @@
 <p>Le fichier <a class="reference download internal" download="" href="../_downloads/d2ee71e3c8c6cd0732de5988a17fa3c7/double_star.txt"><code class="xref download docutils literal notranslate"><span class="pre">data/double_star.txt</span></code></a> contient une image de 64 par 64 pixels d’une étoile double. L’objectif de cette partie est d’ajuster cette image par la somme de deux Gaussiennes afin de déterminer la distance entre les étoiles.</p>
 <ol class="arabic simple">
 <li><p>Charger et afficher le fichier à l’aide de la fonction imshow</p></li>
-<li><p>Définir une fonction de fit et tracer une image qui ressemble à celle ci. On pourra utiliser la fonction meshgrid.</p></li>
+<li><p>Définir une fonction de fit et tracer une image qui ressemble à celle ci. On pourra utiliser la fonction <code class="docutils literal notranslate"><span class="pre">np.meshgrid</span></code>.</p></li>
 </ol>
-<p>Il n’est pas possible de travailler directement sur des tableau 2D pour le fit : l’ensemble des intensité de l’image doit être sous forme d’un tableau (taille <span class="math notranslate nohighlight">\(N\)</span>) ainsi que l’ensemble de coordonnées <span class="math notranslate nohighlight">\((x,y)\)</span> des ces points (tailles <span class="math notranslate nohighlight">\(N\times 2\)</span>).</p>
+<p>Il n’est pas possible de travailler directement sur des tableaux 2D pour le fit : l’ensemble des pixels de l’image doit être sous forme d’un tableau (taille <span class="math notranslate nohighlight">\(N\)</span>) ainsi que l’ensemble de coordonnées <span class="math notranslate nohighlight">\((x,y)\)</span> des ces points (tailles <span class="math notranslate nohighlight">\(N\times 2\)</span>).</p>
 <ol class="arabic simple" start="3">
 <li><p>Ecrire une fonction qui s’adapte au contraite du fit et effectuer le fit.</p></li>
 <li><p>Quelle est la distance et son incertitude (en pixel) entre les deux étoiles ?</p></li>
