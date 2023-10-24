@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Equation de Schrödinger et états comprimés &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Piège de Penning" href="piege_penning.html" />
+    <link rel="prev" title="Le pendule" href="pendule.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="pendule.html" title="Le pendule"
+             accesskey="P">previous</a> |
+          <a href="piege_penning.html" title="Piège de Penning"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="equation-de-schrodinger-et-etats-comprimes">
+<h1>Equation de Schrödinger et états comprimés<a class="headerlink" href="#equation-de-schrodinger-et-etats-comprimes" title="Permalink to this headline">¶</a></h1>
+<p>Ce TD a pour but de simuler numériquement le TD “Etats quantiques d’atomes de césium dans un piège harmonique” du cours de physique quantique.</p>
+<p>On prendra <span class="math notranslate nohighlight">\(m=1\)</span>, <span class="math notranslate nohighlight">\(\hbar=1\)</span>. On considère de plus un piège harmonique de pulsation <span class="math notranslate nohighlight">\(\omega = 2\pi\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Ecrire (avec un papier et un crayon!) l’équation de Schrödinger.</p></li>
+<li><p>Ecrire (avec un papier et un crayon) la fonction d’onde de l’état fondamental du piège harmonique.</p></li>
+</ol>
+<p>On va échantillonner l’espace entre -5 et 5 avec un pas de 0.02</p>
+<ol class="arabic simple" start="3">
+<li><p>Ecrire une fonction Python qui calcule un état Gaussien d’écart type <span class="math notranslate nohighlight">\(\sigma_x\)</span> de vitesse <span class="math notranslate nohighlight">\(v_0\)</span> et centré en <span class="math notranslate nohighlight">\(x_0\)</span>.</p></li>
+<li><p>Ecrire une fonction Python qui calcule le Laplacien d’une fonction d’onde <span class="math notranslate nohighlight">\(\psi\)</span>.</p></li>
+<li><p>Ecrire la fonction Python <code class="docutils literal notranslate"><span class="pre">psi_prime(t,</span> <span class="pre">psi,</span> <span class="pre">V)</span></code> qui donne la dérivée de psi. Vérifier graphiquement que l’on a bien <span class="math notranslate nohighlight">\(\frac{\partial \psi}{\partial t} = -i\omega/2 \psi\)</span> pour l’état fondamental du piège.</p></li>
+<li><p>Résoudre numériquement sur un temps <span class="math notranslate nohighlight">\(t=1.5\)</span> l’équation de Schrödinger pour différents états initiaux : par exemple un paquet centré en <span class="math notranslate nohighlight">\(-2\)</span> initialement au repos et de largeur <span class="math notranslate nohighlight">\(0.3\)</span>. On utilisera la méthode <code class="docutils literal notranslate"><span class="pre">RK23</span></code>.</p></li>
+<li><p>Ecrire une fonction python <code class="docutils literal notranslate"><span class="pre">moments_x(psi)</span></code> qui retourne <span class="math notranslate nohighlight">\(\mathbb{E}(X)\)</span> (position moyenne) et <span class="math notranslate nohighlight">\(\mathbb{E}((X - \mathbb{E}(X))^2)\)</span> (carré de la largeur du paquet)</p></li>
+<li><p>Tracer ces moments en fonction de t.</p></li>
+<li><p>Question 7 et 8, mais avec l’impulsion. Dans le calcul de l’espérance, on suprimera les parties hautes impulsions qui sont dûes à du bruit numérique</p></li>
+<li><p>Pendant 0.5 seconde, on laisse la paquet évoluer librement (V=0) puis pendant une durée <span class="math notranslate nohighlight">\(t&lt;0.5\)</span>, le paquet évolue avec le potentiel harmonique. Tracer la largeur en impulsion en fonction de cette durée.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<p>Equation de Schrödinger :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-60f4256e-852e-49f7-86a3-be7af9745d49">
+<span class="eqno">(1)<a class="headerlink" href="#equation-60f4256e-852e-49f7-86a3-be7af9745d49" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+i\hbar\frac{\partial\psi}{\partial t} = -\frac{\hbar^2}{2m}\frac{\partial^2\psi}{\partial x} + \frac{1}{2} m \omega^2 x^2
+\end{equation}\]</div>
+<p>Etat fondamental : on définit <span class="math notranslate nohighlight">\(a_\mathrm{oh} = \sqrt{\frac{\hbar}{m\omega}}\)</span>. L’état fondamental est donné par :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-64b7e180-1254-49f0-bfcb-9a104e3f9437">
+<span class="eqno">(2)<a class="headerlink" href="#equation-64b7e180-1254-49f0-bfcb-9a104e3f9437" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\psi_0 =  \frac{1}{\left( \pi a^2_\mathrm{oh}\right)^{\frac{1}{4}}} e^{-\frac{x^2}{2a_\mathrm{oh}^2}}
+\end{equation}\]</div>
+<p>a_ho = np.sqrt(hbar/(m*omega))
+psi_0 = gaussian_packet(a_ho, 0, 0)</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">animation</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">integrate</span>
+
+<span class="kn">from</span> <span class="nn">numba</span> <span class="kn">import</span> <span class="n">jit</span><span class="p">,</span> <span class="n">njit</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#Question 3</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="mf">10.</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">N_x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">L</span><span class="o">/</span><span class="n">dx</span><span class="p">))</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N_x</span><span class="p">)</span><span class="o">-</span><span class="n">N_x</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">hbar</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">gaussian_packet</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">x_0</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">v_0</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">k_x</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">v_0</span><span class="o">/</span><span class="n">hbar</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x_0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">k_x</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">psi</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">psi</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="n">T</span>
+
+<span class="n">V</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="n">omega</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 4</span>
+
+<span class="nd">@jit</span>
+<span class="k">def</span> <span class="nf">Laplace</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">dx</span><span class="o">=</span><span class="n">dx</span><span class="p">):</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_x</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">psi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">psi</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">psi</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span><span class="o">/</span><span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">psi</span> <span class="o">=</span> <span class="n">gaussian_packet</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">Laplace</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
+
+<span class="o">%</span><span class="k">timeit</span> Laplace(psi)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.78 µs ± 31.1 ns per loop (mean ± std. dev. of 7 runs, 1000000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 5</span>
+<span class="k">def</span> <span class="nf">psi_prime</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">V</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">hbar</span> <span class="o">/</span> <span class="n">m</span> <span class="o">*</span> <span class="n">Laplace</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="o">+</span> <span class="n">V</span> <span class="o">/</span> <span class="n">hbar</span> <span class="o">*</span> <span class="n">psi</span><span class="p">)</span>
+<span class="n">psi_prime</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">psi</span><span class="p">,</span> <span class="n">V</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#%timeit psi_prime(0.0, psi)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On vérifie que l&#39;on a bien un état propre</span>
+
+<span class="n">a_ho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">hbar</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">omega</span><span class="p">))</span>
+<span class="n">psi_0</span> <span class="o">=</span> <span class="n">gaussian_packet</span><span class="p">(</span><span class="n">a_ho</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">J</span><span class="o">*</span><span class="n">omega</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">psi_0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psi_prime</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">psi_0</span><span class="p">,</span> <span class="n">V</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$|\psi|^2$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;$|\\psi|^2$&#39;)
+</pre></div>
+</div>
+<img alt="../_images/b6f41eb3ee612368592ebc01a7b82a0ddaf00693386d3eeb43ad2080363a2abf.png" src="../_images/b6f41eb3ee612368592ebc01a7b82a0ddaf00693386d3eeb43ad2080363a2abf.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 6</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mf">1.5</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+
+<span class="n">psi_0</span> <span class="o">=</span> <span class="n">gaussian_packet</span><span class="p">(</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">sol</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">psi_prime</span><span class="p">,</span> <span class="n">t_span</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">psi_0</span><span class="p">,</span> <span class="n">t_eval</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;RK23&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">V</span><span class="p">,))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psi_0</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span> <span class="p">::</span><span class="mi">5</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/60bd31c3777412c450861f2b4d81853fb2978715acbabeeb6e9fc676f54f63a6.png" src="../_images/60bd31c3777412c450861f2b4d81853fb2978715acbabeeb6e9fc676f54f63a6.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 7</span>
+<span class="k">def</span> <span class="nf">moments_x</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+    <span class="n">proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="p">)</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">norm</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">center</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">norm</span>
+    <span class="k">return</span> <span class="n">center</span><span class="p">,</span> <span class="n">var</span>
+
+<span class="n">centers</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">moments_x</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="k">for</span> <span class="n">psi</span> <span class="ow">in</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 8</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">centers</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Width&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Position&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;t&#39;)
+</pre></div>
+</div>
+<img alt="../_images/867b19ff4e8f24242ddd5882759c380a4734a0d8f88205ae2929c50629f5a491.png" src="../_images/867b19ff4e8f24242ddd5882759c380a4734a0d8f88205ae2929c50629f5a491.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 9</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">hbar</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">d</span><span class="o">=</span><span class="n">dx</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">psi_tilde</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">psi</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">def</span> <span class="nf">moments_p</span><span class="p">(</span><span class="n">psi</span><span class="p">):</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">&lt;</span><span class="mi">40</span>
+    <span class="n">proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">psi_tilde</span><span class="p">(</span><span class="n">psi</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+    <span class="n">center</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">*</span><span class="n">p</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span><span class="o">/</span><span class="n">norm</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">proba</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">-</span><span class="n">center</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">norm</span>
+    <span class="k">return</span> <span class="n">center</span><span class="p">,</span> <span class="n">var</span>
+
+<span class="n">momentum</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">moments_p</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="k">for</span> <span class="n">psi</span> <span class="ow">in</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">momentum</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;momentum&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;temperature&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;t&#39;)
+</pre></div>
+</div>
+<img alt="../_images/b55c9178daee03c7a077eba4b8bcda6d9c3b087aef03c20d02154f7fcfcf4089.png" src="../_images/b55c9178daee03c7a077eba4b8bcda6d9c3b087aef03c20d02154f7fcfcf4089.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 10</span>
+
+<span class="n">t0</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="mi">101</span><span class="p">)</span>
+
+<span class="n">a_ho</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">hbar</span><span class="o">/</span><span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">omega</span><span class="p">))</span>
+<span class="n">psi_0</span> <span class="o">=</span> <span class="n">gaussian_packet</span><span class="p">(</span><span class="n">a_ho</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">sol</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">psi_prime</span><span class="p">,</span> <span class="n">t_span</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">psi_0</span><span class="p">,</span> 
+                          <span class="n">t_eval</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;RK23&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="o">*</span><span class="n">V</span><span class="p">,))</span>
+
+<span class="n">psi_1</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">sol2</span> <span class="o">=</span> <span class="n">integrate</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">psi_prime</span><span class="p">,</span> <span class="n">t_span</span> <span class="o">=</span> <span class="p">[</span><span class="n">t0</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">psi_1</span><span class="p">,</span> 
+                          <span class="n">t_eval</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;RK23&quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">V</span><span class="p">,))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">momentum</span><span class="p">,</span> <span class="n">temperature</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">moments_p</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span> <span class="k">for</span> <span class="n">psi</span> <span class="ow">in</span> <span class="n">sol2</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">T</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t_eval</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">temperature</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\Delta p$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;t&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/d4223017594f9b3b2bf3f1f83835f5b063fa80d4e745172d7023c6f98a137f09.png" src="../_images/d4223017594f9b3b2bf3f1f83835f5b063fa80d4e745172d7023c6f98a137f09.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pendule.html">Le pendule</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Equation de Schrödinger et états comprimés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piege_penning.html">Piège de Penning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuage_ions.html">Nuage d’ions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chaine_de_ressorts.html">Chaîne de ressorts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="pendule.html" title="Le pendule"
+              >previous</a> |
+            <a href="piege_penning.html" title="Piège de Penning"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/equa_diff/schrodinger_etat_comprime.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

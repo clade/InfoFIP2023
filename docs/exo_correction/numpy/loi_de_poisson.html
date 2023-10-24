@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Loi de poisson et générateur de nombre aléatoire &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Ajustements de courbes et statistiques" href="../statistiques.html" />
+    <link rel="prev" title="Vigicrue" href="vigicrue.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="vigicrue.html" title="Vigicrue"
+             accesskey="P">previous</a> |
+          <a href="../statistiques.html" title="Ajustements de courbes et statistiques"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="loi-de-poisson-et-generateur-de-nombre-aleatoire">
+<h1>Loi de poisson et générateur de nombre aléatoire<a class="headerlink" href="#loi-de-poisson-et-generateur-de-nombre-aleatoire" title="Permalink to this headline">¶</a></h1>
+<p><em>Cet exercice s’appuie sur un sujet de l’IPT, avec un méthode légèrement différente. Regarder :</em> <a class="reference external" href="https://doi.org/10.1051/emsci/2017009">Emergent Scientist 1, 7 (2017)</a></p>
+<p>Une source lumineuse illumine un photomultiplicateur. Ce dispositif envoie un pulse digital d’environ 20 ns à chaque photon qu’il détecte. La sortie du photomultiplicateur est connectée à un dispositif informatique qui permet de compter le nombre de pulses reçu pendant une durée determinée.</p>
+<p>Le nombre de photons qui arrive pendant une durée donnée suit une loi de Poisson, c’est à dire que la probabilité de détecter <span class="math notranslate nohighlight">\(k\)</span> photons est donnée par :</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\begin{split}p(k) = \frac{\lambda^k}{k!}e^{-\lambda}\end{split}
+\end{equation*}\]</div>
+<p>où <span class="math notranslate nohighlight">\(\lambda\)</span> est le nombre moyen de photons. Le paramètre <span class="math notranslate nohighlight">\(\lambda\)</span> sera proportionnel à la durée <span class="math notranslate nohighlight">\(t_0\)</span> pendant laquelle on mesure le nombre de photons : <span class="math notranslate nohighlight">\(\lambda = \Gamma t_0\)</span>.</p>
+<p>On rappelle que l’écart type de la loi de Poisson vaut <span class="math notranslate nohighlight">\(\sqrt{\lambda}\)</span></p>
+<ol class="arabic">
+<li><p>Le fichier de données est enregistré sous forme d’un fichier texte. Chaque point correspond à une mesure de durée <span class="math notranslate nohighlight">\(t_0=200\mathrm{\mu s}\)</span>. Lire le fichier sous forme d’un tableau d’entier:</p>
+<p>Quel est le nombre moyen de photons reçu par seconde ?</p>
+</li>
+<li><p>Calculer l’écart type et vérifiez qu’il vaut <span class="math notranslate nohighlight">\(\sqrt{\lambda}\)</span>.</p></li>
+<li><p>En utilisant la fonction <code class="docutils literal notranslate"><span class="pre">numpy.unique</span></code>, avec l’option <code class="docutils literal notranslate"><span class="pre">return_counts=True</span></code>, tracez la distribution de probabilité (créer un histogramme).</p></li>
+<li><p>Tracez les points représentants <span class="math notranslate nohighlight">\(p(k)/p(k+1)\)</span>.</p></li>
+<li><p>On peut créer un générateur de bits aléatoires à partir de cette séquence : si <span class="math notranslate nohighlight">\(x_{2j}&gt;x_{2j+1}\)</span> alors on prend 1, si <span class="math notranslate nohighlight">\(x_{2j}&lt;x_{2j+1}\)</span> on prend 0, sinon on élimine le point <span class="math notranslate nohighlight">\(j\)</span>.</p>
+<p>Créer une fonction <code class="docutils literal notranslate"><span class="pre">bits_aleatoires(data)</span></code> qui engendrer cette suite de bits aléatoire que l’on appellera <span class="math notranslate nohighlight">\(a_j\)</span> - une fois avec et sans de boucle <code class="docutils literal notranslate"><span class="pre">for</span></code>. Comparez les temps.</p>
+</li>
+<li><p>On peut ensuite créer une suite de nombre aléatoire <span class="math notranslate nohighlight">\(\{b_j\}\)</span> entre 0 et 1 en regroupant les bits <span class="math notranslate nohighlight">\(\{a_i\}\)</span> dans une manière que <span class="math notranslate nohighlight">\(b_j\)</span> soit écrit en binaire comme <span class="math notranslate nohighlight">\((a_{Nj}, a_{Nj+1}, ... , a_{N(j+1) -1 })\)</span>. On prendra par exemple N=11.</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+    b_j = \sum_{i=0}^{i=N-1} \frac{a_{Nj+i}}{2^{i+1}} \in [0,1]
+    \end{equation*}\]</div>
+<p>Si <span class="math notranslate nohighlight">\(n=|\{a_j\}|\)</span>, le nombre d’elements dans la suite <span class="math notranslate nohighlight">\(\{a_j\}\)</span>, n’est pas divisible par <span class="math notranslate nohighlight">\(N\)</span>, supprimez les premiers <span class="math notranslate nohighlight">\(n\%N\)</span> elements.</p>
+</li>
+<li><p>Si X et Y sont deux variables aléatoires ayant une distribution uniforme entre 0 et 1, alors on a</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+    P(X^2 + Y^2&lt;1) = \frac{\pi}{4}
+    \end{equation*}\]</div>
+<p>Déterminez <span class="math notranslate nohighlight">\(\pi\)</span> en utilisant notre générateur de nombre aléatoire.</p>
+</li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">fichier</span> <span class="o">=</span> <span class="s2">&quot;data/100secondes_200us_count.txt&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">fichier</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span> 
+<span class="c1"># data sous la forme d&#39;un tableau de dimension 1</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 1</span>
+<span class="n">t0</span> <span class="o">=</span> <span class="mf">200E-6</span>
+<span class="n">flux_moyen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">/</span><span class="n">t0</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;flux_moyen: </span><span class="si">{</span><span class="n">flux_moyen</span><span class="si">}</span><span class="s1"> photons/s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>flux_moyen: 22972.79 photons/s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 2</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Deviation standard :&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">std</span><span class="p">())</span> <span class="c1">#  on peut aussi utiliser np.std(data)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Racine carré de la moyenne :&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">mean</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Deviation standard : 2.1401156007645943
+Racine carré de la moyenne : 2.1434920107152253
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 3</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span>
+
+<span class="n">values</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">count</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">count</span><span class="p">),</span> <span class="s1">&#39;-o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Nombre de photon k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Probabilité p(k)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;Probabilité p(k)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/044a3a3ca1b26d3bd2b9a60cb1d05e6519352979732fb3ec4b5fde683eb6d56c.png" src="../_images/044a3a3ca1b26d3bd2b9a60cb1d05e6519352979732fb3ec4b5fde683eb6d56c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 4</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">count</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">count</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Nombre de photon k&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;$p(k)/p(k+1)$&#39;</span><span class="p">);</span> <span class="c1"># Utilisation de Latex</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/aec68880278e6fa0841e18704130c7ad3e5100f7ff278860b9147d438b48145c.png" src="../_images/aec68880278e6fa0841e18704130c7ad3e5100f7ff278860b9147d438b48145c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 5</span>
+<span class="k">def</span> <span class="nf">bits_aleatoires</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># Il faut un nombre paire de point</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">%</span><span class="k">2</span>):]
+    <span class="n">A</span> <span class="o">=</span> <span class="n">data</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">A</span><span class="o">!=</span><span class="n">B</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">A</span><span class="o">&gt;</span><span class="n">B</span><span class="p">)[</span><span class="n">mask</span><span class="p">]</span>
+
+<span class="n">bits_aleatoires</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([False,  True,  True, ..., False, False,  True])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 7</span>
+
+<span class="n">data_bits</span> <span class="o">=</span> <span class="n">bits_aleatoires</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">11</span>
+
+<span class="n">data_bits</span> <span class="o">=</span> <span class="n">data_bits</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">data_bits</span><span class="p">)</span><span class="o">%</span><span class="k">N</span>:]
+<span class="n">data_bits</span> <span class="o">=</span> <span class="n">data_bits</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">data_bits</span><span class="p">)</span><span class="o">//</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+<span class="n">data_bits</span>
+<span class="n">coef</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)))</span>
+<span class="n">nb_aleatoires</span> <span class="o">=</span> <span class="p">(</span><span class="n">data_bits</span><span class="o">*</span><span class="n">coef</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> 
+<span class="c1"># np.newaxis permet de transformer le tableau de dimension 1 en un tableau de dimension 2</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 8</span>
+
+<span class="n">nb_aleatoires</span> <span class="o">=</span> <span class="n">nb_aleatoires</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nb_aleatoires</span><span class="p">)</span><span class="o">%</span><span class="k">2</span>:] # on garde un nombre pair de points
+<span class="n">X</span> <span class="o">=</span> <span class="n">nb_aleatoires</span><span class="p">[::</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># indices pairs</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">nb_aleatoires</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="c1"># indices impairs</span>
+<span class="c1"># The probability is the number of times a sample fullfills the condition </span>
+<span class="c1"># divided by the total number of samples</span>
+<span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3.169305724725944
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simpson.html">Formule de Simpson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_sphere.html">Volume d’une sphère</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covid.html">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravimetre.html">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vigicrue.html">Vigicrue</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="vigicrue.html" title="Vigicrue"
+              >previous</a> |
+            <a href="../statistiques.html" title="Ajustements de courbes et statistiques"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/loi_de_poisson.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

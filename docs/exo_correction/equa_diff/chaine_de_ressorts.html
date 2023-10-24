@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Chaîne de ressorts &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Transformée de Fourier" href="../Fourier.html" />
+    <link rel="prev" title="Nuage d’ions" href="nuage_ions.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="nuage_ions.html" title="Nuage d’ions"
+             accesskey="P">previous</a> |
+          <a href="../Fourier.html" title="Transformée de Fourier"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="chaine-de-ressorts">
+<h1>Chaîne de ressorts<a class="headerlink" href="#chaine-de-ressorts" title="Permalink to this headline">¶</a></h1>
+<p><em>Examen 2022</em></p>
+<p>On considère pour commencer une masse <span class="math notranslate nohighlight">\(m\)</span> suspendue à un ressort de raideur <span class="math notranslate nohighlight">\(k\)</span> et de longueur au repos <span class="math notranslate nohighlight">\(L\)</span>. A l’équilibre la masse est à la position <span class="math notranslate nohighlight">\(z_{eq} = -L - a_{eq}\)</span> où <span class="math notranslate nohighlight">\(a_{eq}\)</span> est l’allongement du ressort. On fera attention aux signes !</p>
+<a class="reference internal image-reference" href="../_images/ressorts.png"><img alt="Chaîne de ressort" class="align-center" src="../_images/ressorts.png" style="width: 70%;" /></a>
+<p>On prendra <span class="math notranslate nohighlight">\(k = 10\)</span> N/m, <span class="math notranslate nohighlight">\(m=0.03\)</span> kg, <span class="math notranslate nohighlight">\(g = 9.81\)</span> m/s<span class="math notranslate nohighlight">\(^2\)</span> et <span class="math notranslate nohighlight">\(L=30\)</span> cm.</p>
+<ol class="arabic simple">
+<li><p>Ecrire une fonction Python qui renvoie l’accélération de la masse en fonction de sa position <span class="math notranslate nohighlight">\(z\)</span> et du champ de gravité <span class="math notranslate nohighlight">\(g\)</span>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># variable globales</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>    <span class="c1"># N/m</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">9.81</span>  <span class="c1"># m/s-2</span>
+<span class="n">m</span> <span class="o">=</span> <span class="mf">0.03</span>  <span class="c1"># kg</span>
+<span class="n">L</span> <span class="o">=</span> <span class="mf">0.3</span>   <span class="c1"># m</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># axe des z vers le haut. </span>
+<span class="c1"># Lorsque z = - L, la force du ressort est nulle. </span>
+<span class="c1"># Lorsque z = - L - a_eq où a_eq&gt;0, alors le ressort tire vers le haut</span>
+
+<span class="k">def</span> <span class="nf">acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="o">-</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="n">L</span><span class="o">+</span><span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">g</span>  
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Résoudre numériquement l’équation différentielle avec pour condition initiale <span class="math notranslate nohighlight">\(z=-L\)</span> et <span class="math notranslate nohighlight">\(v_0=0.1\)</span> m/s et donner la position et la vitesse après <span class="math notranslate nohighlight">\(0.1\)</span> s.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">acceleration</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])])</span>
+
+<span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">L</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
+<span class="c1">#y0 = np.array([-L-g*m/k, 0])  à l&#39;équilibre</span>
+
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Position at 0.1 s is </span><span class="si">{</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> m et la vitesse </span><span class="si">{</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> m/s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Position at 0.1 s is -0.332 m et la vitesse -0.545 m/s
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Tracer la position sur environ 10 périodes.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ti</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">N_eval</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">N_eval</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Position (m)&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(sol.t, sol.y[1], label=&#39;Vitesse (m/s)&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;z (m)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/a4ec0c607eb530510c293808c290ae894cfa71d44723c638ba7ec1308f288c77.png" src="../_images/a4ec0c607eb530510c293808c290ae894cfa71d44723c638ba7ec1308f288c77.png" />
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Vérifier que l’énergie totale du système est conservée.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">E_cinetique</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">E_potentielle</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">k</span><span class="o">*</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">k</span><span class="o">*</span><span class="n">L</span><span class="o">*</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">E_cinetique</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$E_</span><span class="si">{c}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">E_potentielle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$E_</span><span class="si">{p}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">E_cinetique</span><span class="o">+</span><span class="n">E_potentielle</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$E_</span><span class="si">{tot}</span><span class="s1">$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9bea24fd30&gt;
+</pre></div>
+</div>
+<img alt="../_images/81f7f85641d40875b09dac75becc023daea94361161a8061adcc269c5b9e6969.png" src="../_images/81f7f85641d40875b09dac75becc023daea94361161a8061adcc269c5b9e6969.png" />
+</div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Ajuster votre graphique par une sinusoïde et vérifier que l’on a bien la relation <span class="math notranslate nohighlight">\(\omega = \sqrt{k/m}\)</span>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">pi</span>
+<span class="k">def</span> <span class="nf">fit_function</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">amplitude</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">omega</span><span class="o">*</span><span class="n">t</span><span class="o">+</span><span class="n">phi</span><span class="p">)</span>
+
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">.</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">),</span> <span class="n">pi</span><span class="p">])</span>
+<span class="n">popt</span><span class="p">,</span> <span class="n">pcov</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fit_function</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">p0</span><span class="p">)</span>
+<span class="c1">#print(popt)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Simu&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(sol.t, fit_function(sol.t, *p0), label=&#39;Fit init&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">fit_function</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="o">*</span><span class="n">popt</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fit&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Pulsation deduite du fit </span><span class="si">{</span><span class="n">popt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> rad/s, difference de celle attendue </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">-</span><span class="n">popt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> rad/s&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Frequence </span><span class="si">{</span><span class="n">popt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="si">:</span><span class="s1">.2f</span><span class="si">}</span><span class="s1"> Hz&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pulsation deduite du fit 18.27 rad/s, difference de celle attendue -0.009 rad/s
+Frequence 2.91 Hz
+</pre></div>
+</div>
+<img alt="../_images/7f9ea4fda3574b11e1dd5f9268e27323fc6cd01cdd483f9ac0ffc3c757d41bf7.png" src="../_images/7f9ea4fda3574b11e1dd5f9268e27323fc6cd01cdd483f9ac0ffc3c757d41bf7.png" />
+</div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Retrouver la fréquence d’oscillation cette fois en calculant la transformée de Fourier numérique de la position. Comment améliorer la résolution de la valeur déduite ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">rfft</span><span class="p">,</span> <span class="n">rfftfreq</span><span class="p">,</span> <span class="n">ifft</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">t_eval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">rfftfreq</span><span class="p">(</span><span class="n">N_eval</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">z_tild</span> <span class="o">=</span> <span class="n">rfft</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;freq (Hz)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;fft(z)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La fréquence d&#39;oscillation déduite du calcul de la transformée </span><span class="se">\</span>
+<span class="s2">de Fourier numérique est </span><span class="si">{</span><span class="n">freq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span><span class="o">**</span><span class="mi">2</span><span class="p">)]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La fréquence d&#39;oscillation déduite du calcul de la transformée de Fourier numérique est 2.80 Hz
+</pre></div>
+</div>
+<img alt="../_images/13fe333b9eabc33bacb1ad539ab44a29f54d9581315b692e216db5612bb5ca37.png" src="../_images/13fe333b9eabc33bacb1ad539ab44a29f54d9581315b692e216db5612bb5ca37.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># On peut améliorer la valeur déduite en simulant l&#39;évolution du système sur plusieurs périodes.</span>
+<span class="n">ti</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">N_eval</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">N_eval</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">t_eval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">rfftfreq</span><span class="p">(</span><span class="n">N_eval</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">z_tild</span> <span class="o">=</span> <span class="n">rfft</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;freq (Hz)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;fft(z)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La fréquence d&#39;oscillation déduite du calcul de la transformée</span><span class="se">\</span>
+<span class="s2">de Fourier numérique est </span><span class="si">{</span><span class="n">freq</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span><span class="o">**</span><span class="mi">2</span><span class="p">)]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La fréquence d&#39;oscillation déduite du calcul de la transformée de Fourier numérique est 2.90 Hz
+</pre></div>
+</div>
+<img alt="../_images/29932204ec13e7d0f3c027a88f083f67e210572f8216d2bba4f069eee4fb8c3e.png" src="../_images/29932204ec13e7d0f3c027a88f083f67e210572f8216d2bba4f069eee4fb8c3e.png" />
+</div>
+</div>
+<p>On considère maintenant une chaîne de masses reliées par des ressorts. On prendre <span class="math notranslate nohighlight">\(N=10\)</span> masses numérotées de <span class="math notranslate nohighlight">\(0\)</span> à <span class="math notranslate nohighlight">\(N-1\)</span>.</p>
+<p>On note <span class="math notranslate nohighlight">\(z_i(t)\)</span> la position de la masse numéro <span class="math notranslate nohighlight">\(i\)</span> et <span class="math notranslate nohighlight">\(l_i(t)\)</span> la longueur de chaque ressort (<span class="math notranslate nohighlight">\(l_i(t)&gt;0\)</span>). On a <span class="math notranslate nohighlight">\(z_i(t) = -\sum_{j=0}^{j=i} l_j(t)\)</span></p>
+<ol class="arabic simple" start="7">
+<li><p>Ecrire une fonction qui à partir d’un tableau des positions <span class="math notranslate nohighlight">\(z_i\)</span> renvoit un tableau des alongements <span class="math notranslate nohighlight">\(a_i =l_i - L\)</span>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="k">def</span> <span class="nf">allongements</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> <span class="c1"># ici z vecteur des zi(t)</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">z</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  <span class="c1"># vecteur contenant les longueurs des ressorts li</span>
+    <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">l</span><span class="o">-</span><span class="n">L</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>L’accélération d’une masse <span class="math notranslate nohighlight">\(i\)</span> est donnée par :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-89702fa2-3259-42a0-b5e6-66fb74532d90">
+<span class="eqno">(1)<a class="headerlink" href="#equation-89702fa2-3259-42a0-b5e6-66fb74532d90" title="Permalink to this equation">¶</a></span>\[\begin{equation} \frac{d^2 z_i}{dt^2} = -g + \frac{k}{m}(a_i - a_{i+1})
+\end{equation}\]</div>
+<p>étant entendu que pour la dernière masse, il n’y a pas de terme en <span class="math notranslate nohighlight">\(a_{i+1}\)</span>.</p>
+<ol class="arabic simple" start="8">
+<li><p>Ecrire une fonction qui renvoie sous forme d’un tableau l’accélération en fonction des positions <span class="math notranslate nohighlight">\(z_i\)</span>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> <span class="c1"># ici z vecteur des zi(t)</span>
+    <span class="n">al</span> <span class="o">=</span> <span class="n">allongements</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    <span class="n">acc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="n">al</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">al</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">-</span> <span class="n">g</span> 
+    <span class="n">acc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="o">+</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="n">al</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">g</span>
+    <span class="k">return</span> <span class="n">acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>À l’équilibre, en présence du champ de gravité, l’alongement <span class="math notranslate nohighlight">\(a_i\)</span> est donné par la masse totale située en dessous (<span class="math notranslate nohighlight">\(j\ge i\)</span>) : <span class="math notranslate nohighlight">\(a_i^\mathrm{eq} = (N-i)\frac{mg}{k}\)</span>.</p>
+<ol class="arabic simple" start="9">
+<li><p>Vérifier que pour cette position, l’accélération est bien nulle. (Il s’agit ici de tester la fonction écrite à la question précédente.)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aleq</span> <span class="o">=</span> <span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">))</span><span class="o">*</span><span class="n">m</span><span class="o">*</span><span class="n">g</span><span class="o">/</span><span class="n">k</span>
+
+<span class="n">zeq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">zeq</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">aleq</span><span class="p">[:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    
+<span class="n">acceleration</span><span class="p">(</span><span class="n">zeq</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 2.30926389e-14,  2.30926389e-14,  2.30926389e-14, -1.24344979e-13,
+        1.70530257e-13, -1.24344979e-13, -1.24344979e-13,  1.70530257e-13,
+       -1.24344979e-13,  1.15463195e-13])
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="10">
+<li><p>Résoudre l’équation différentielle en prenant comme conditions initiales, pour chacune des masses, une vitesse nulle et une position déplacée de 20 cm vers le haut par rapport à sa position d’équilibre en présence du champ de gravité.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">zeq</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">N</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+<span class="n">ti</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">N_eval</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">N_eval</span><span class="p">)</span>
+<span class="n">z0</span> <span class="o">=</span> <span class="n">zeq</span> <span class="o">+</span> <span class="mf">0.2</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z0</span><span class="p">))</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">z0</span><span class="p">,</span><span class="n">v0</span><span class="p">))</span>
+
+
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z0&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z4&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z8&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z9&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9be6842730&gt;
+</pre></div>
+</div>
+<img alt="../_images/dea8cd4bbfc4366238a3bcd6c64e8f8b31c49830a822108f77efb8582a4ab27a.png" src="../_images/dea8cd4bbfc4366238a3bcd6c64e8f8b31c49830a822108f77efb8582a4ab27a.png" />
+</div>
+</div>
+<ol class="arabic simple" start="11">
+<li><p>Qu’observez-vous dans le spectre du mouvement ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ti</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">N_eval</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">N_eval</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">t_eval</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">t_eval</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">rfftfreq</span><span class="p">(</span><span class="n">N_eval</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+<span class="n">z_tild</span> <span class="o">=</span> <span class="n">rfft</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freq</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="nb">abs</span><span class="p">(</span><span class="n">z_tild</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">*</span><span class="n">dt</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="c1">#plt.plot([np.sqrt(k/m)/2/pi,np.sqrt(k/m)/2/pi],[0, max(abs(z_tild[1:]*dt)**2)])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;freq (Hz)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;fft(z)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Nous observons plusieurs résonances à  des harmoniques et sous harmoniques de la fréquence du ressort seul&quot;</span><span class="p">)</span>
+<span class="c1">#print(f&quot;La fréquence d&#39;oscillation déduite du calcul de la transformée de Fourier numérique est {freq[np.argmax(abs(z_tild[1:])**2)]:.2f} Hz&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Nous observons plusieurs résonances à  des harmoniques et sous harmoniques de la fréquence du ressort seul
+</pre></div>
+</div>
+<img alt="../_images/47a65a90a6ef286ea4e373e8934e426a79058240f3b8ff9cf8bfc95fa7f1003c.png" src="../_images/47a65a90a6ef286ea4e373e8934e426a79058240f3b8ff9cf8bfc95fa7f1003c.png" />
+</div>
+</div>
+<ol class="arabic simple" start="12">
+<li><p>On considère maintenant qu’à l’instant <span class="math notranslate nohighlight">\(t=0\)</span>, le système est à l’équilibre. Cependant, on coupe le ressort numéro “0”. Ecrire une nouvelle fonction qui renvoit l’accélération en fonction des positions.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">):</span> <span class="c1"># ici z vecteur des zi(t)</span>
+    <span class="n">al</span> <span class="o">=</span> <span class="n">allongements</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+    <span class="n">acc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">+</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="p">(</span><span class="n">al</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">al</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="o">-</span> <span class="n">g</span> 
+    <span class="n">acc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>  <span class="o">+</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="n">al</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">g</span>
+    <span class="n">acc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">k</span><span class="o">/</span><span class="n">m</span><span class="o">*</span><span class="n">al</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">g</span> 
+    <span class="k">return</span> <span class="n">acc</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="13">
+<li><p>Résoudre l’équation différentielle. Tracer la position de la masse numéro <span class="math notranslate nohighlight">\(N-1\)</span> en fonction de <span class="math notranslate nohighlight">\(t\)</span> jusqu’à environ 0.4 s. Qu’observe-t-on ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">N</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">v</span><span class="p">,</span> <span class="n">acceleration</span><span class="p">(</span><span class="n">z</span><span class="p">)))</span>
+
+
+<span class="n">ti</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">tf</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">N_eval</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">t_eval</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">,</span> <span class="n">N_eval</span><span class="p">)</span>
+<span class="n">z0</span> <span class="o">=</span> <span class="n">zeq</span>
+<span class="n">v0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z0</span><span class="p">))</span>
+<span class="n">y0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">z0</span><span class="p">,</span><span class="n">v0</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">z0</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+
+
+<span class="n">sol</span> <span class="o">=</span> <span class="n">solve_ivp</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">ti</span><span class="p">,</span> <span class="n">tf</span><span class="p">],</span> <span class="n">y0</span><span class="p">,</span> <span class="n">t_eval</span><span class="o">=</span><span class="n">t_eval</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[:</span><span class="n">N</span><span class="p">]</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z0&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z4&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z8&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z9&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(sol.t, zeq[0]+N*0.5*g*sol.t**2, &quot;k-.&quot;, label=&#39;1/2gt2&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9be6715fa0&gt;
+</pre></div>
+</div>
+<img alt="../_images/2cadd32f057e7ed1553e9f8299981453f212ee069f1fc0cb768e431478da0988.png" src="../_images/2cadd32f057e7ed1553e9f8299981453f212ee069f1fc0cb768e431478da0988.png" />
+</div>
+</div>
+<ol class="arabic simple" start="14">
+<li><p>Tracez la position des masses numéro 0, 4 et 9 dans le référentiel en chute libre. Tracer aussi dans ce référentiel la position du centre de masse (position moyenne des masses).</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">z_chute</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="n">g</span><span class="o">*</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">z_chute</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z0&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(sol.t, z[1]-z_chute, label=&#39;z1&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">-</span><span class="n">z_chute</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z4&#39;</span><span class="p">)</span>
+<span class="c1">#plt.plot(sol.t, z[-2]-z_chute, label=&#39;z8&#39;)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">z</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">z_chute</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;z9&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sol</span><span class="o">.</span><span class="n">t</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">z</span><span class="o">-</span><span class="n">z_chute</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Moyenne&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;t (s)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;z (m)&#39;</span><span class="p">)</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;z (m)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/875b0c67c17544a98bc81fc312d398b875d9cad5b2914aec81d71841bcf4cf2a.png" src="../_images/875b0c67c17544a98bc81fc312d398b875d9cad5b2914aec81d71841bcf4cf2a.png" />
+</div>
+</div>
+<p><strong>Fonctions utilisées</strong></p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">rfft</span><span class="p">,</span> <span class="n">rfftfreq</span>
+<span class="kn">from</span> <span class="nn">scipy.integrate</span> <span class="kn">import</span> <span class="n">solve_ivp</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="pendule.html">Le pendule</a></li>
+<li class="toctree-l2"><a class="reference internal" href="schrodinger_etat_comprime.html">Equation de Schrödinger et états comprimés</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piege_penning.html">Piège de Penning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nuage_ions.html">Nuage d’ions</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Chaîne de ressorts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="nuage_ions.html" title="Nuage d’ions"
+              >previous</a> |
+            <a href="../Fourier.html" title="Transformée de Fourier"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/equa_diff/chaine_de_ressorts.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

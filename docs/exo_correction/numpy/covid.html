@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Statistiques sur le COVID-19 &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Analyse de données de gravimètres." href="gravimetre.html" />
+    <link rel="prev" title="Volume d’une sphère" href="volume_sphere.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="volume_sphere.html" title="Volume d’une sphère"
+             accesskey="P">previous</a> |
+          <a href="gravimetre.html" title="Analyse de données de gravimètres."
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="statistiques-sur-le-covid-19">
+<h1>Statistiques sur le COVID-19<a class="headerlink" href="#statistiques-sur-le-covid-19" title="Permalink to this headline">¶</a></h1>
+<p><em>Extrait du sujet de 2020/2021</em></p>
+<p>Le fichier <code class="docutils literal notranslate"><span class="pre">data_exo_1.dat</span></code> contient trois colonnes : la première est la date, la seconde le nombre cumulé de décès en hôpital liés au COVID-19 et la troisième le nombre cumulé de décès en EHPAD liés au COVID-19.</p>
+<p>Le fichier commence le lundi 2 mars 2020. C’est l’origine de nos dates (jour 0). Dans la suite, on entend par date ou numéro du jour le nombre de jours écoulés depuis le 2 mars 2020. Ce fichier a été extrait de la base de donnée en janvier 2021 (il ne comprend donc que la première et début de la deuxième vague).</p>
+<ol class="arabic simple">
+<li><p>Lire ce fichier à l’aide de la commande loadtxt, et extraire les trois colones dans trois variables.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">date</span><span class="p">,</span> <span class="n">deces_hopital</span><span class="p">,</span> <span class="n">deces_ehpad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data/data_covid.dat&#39;</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Tracer le graphe du nombre de décès cumulé en hôpital et en EHPAD en fonction de la date.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">deces_hopital</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;hopital&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">deces_ehpad</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ehpad&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb3f83444c0&gt;
+</pre></div>
+</div>
+<img alt="../_images/5fa4be9c6a014ec6ae26070e210b766debae1e00f9759bf57359c82116eeed33.png" src="../_images/5fa4be9c6a014ec6ae26070e210b766debae1e00f9759bf57359c82116eeed33.png" />
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Ajouter sur le même graph le nombre totoal de décés cumulé</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">deces_hopital</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;hopital&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">deces_ehpad</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;ehpad&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">deces_hopital</span> <span class="o">+</span> <span class="n">deces_ehpad</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb3f5efac40&gt;
+</pre></div>
+</div>
+<img alt="../_images/bd8f637bd1c3968f24fbb65c823c060c4aa823fed3def9921972301157701709.png" src="../_images/bd8f637bd1c3968f24fbb65c823c060c4aa823fed3def9921972301157701709.png" />
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Au cours des 30 premiers jours, le nombre cumulé de décès en hôpital suit une loi proche d’une exponentielle. Tracer cette courbe en échelle semi-logarithmique.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">date</span><span class="p">[:</span><span class="mi">30</span><span class="p">],</span> <span class="n">deces_hopital</span><span class="p">[:</span><span class="mi">30</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb3f5ea84f0&gt;
+</pre></div>
+</div>
+<img alt="../_images/673a5efaae812cc99776ccc0bf7b749bf07982087da2d8401881ad213247ba13.png" src="../_images/673a5efaae812cc99776ccc0bf7b749bf07982087da2d8401881ad213247ba13.png" />
+</div>
+</div>
+<ol class="arabic simple" start="5">
+<li><p>Au cours de ces 30 premiers jours, le nombre de décès peut s’écrire <span class="math notranslate nohighlight">\(N(j) = N_0(1+a)^{j-j_0}\)</span>. Tracer cette courbe avec les paramètres pour lesquels elle s’ajuste bien à l’œil. Quelle est la valeur de <span class="math notranslate nohighlight">\(a\)</span>? (Nous ne demandons pas dans cette question de faire un ajustement, mais simplement de superposer les deux courbes).</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">date</span><span class="p">[:</span><span class="mi">30</span><span class="p">],</span> <span class="n">deces_hopital</span><span class="p">[:</span><span class="mi">30</span><span class="p">],</span> <span class="s2">&quot;ok&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">)</span>
+
+<span class="n">N0</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">j0</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mf">0.27</span>
+<span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">N0</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">a</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="n">j0</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;fit&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb3f5c84e20&gt;
+</pre></div>
+</div>
+<img alt="../_images/db880c5017f5520fec65ac1d7718bb554649255525059875b48077a56b05f5a9.png" src="../_images/db880c5017f5520fec65ac1d7718bb554649255525059875b48077a56b05f5a9.png" />
+</div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Calculer le tableau du nombre quotidien de décès en hôpital et en EHPAD en fonction de la date. Et tracer la courbe pour l’hôpital. (Remarque, il est possible de faire cette opération sans boucle )</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deces_quot_hopital</span> <span class="o">=</span> <span class="n">deces_hopital</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">-</span> <span class="n">deces_hopital</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">date_quot</span> <span class="o">=</span> <span class="n">date</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">date_quot</span><span class="p">,</span> <span class="n">deces_quot_hopital</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;total&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb3f5bb81c0&gt;
+</pre></div>
+</div>
+<img alt="../_images/8b4661d287f8ebe1ec134491b2c9b0ccbb460e308211c82dcf4604ea562e90f9.png" src="../_images/8b4661d287f8ebe1ec134491b2c9b0ccbb460e308211c82dcf4604ea562e90f9.png" />
+</div>
+</div>
+<ol class="arabic simple" start="7">
+<li><p>Quel jour a connu le plus grand nombre de décès en hôpital ? (on utilisera la fonction <code class="docutils literal notranslate"><span class="pre">argmax</span></code>)</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="n">deces_quot_hopital</span><span class="p">)</span>
+<span class="n">argmax</span><span class="p">(</span><span class="n">deces_quot_hopital</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>34
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="8">
+<li><p>Combien de jours ont connu plus de 50 décés en EHPAD ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">deces_quot_hopital</span><span class="o">&gt;=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>186
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="9">
+<li><p>Comment extraire en une ligne le nombre de décés pour un jour de la semaine donné ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">deces_quot_hopital</span><span class="p">[</span><span class="mi">0</span><span class="p">::</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8778.0
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="10">
+<li><p>Calculer et tracer le nombre total de décès en hôpital par jour de la semaine. Pour quel jour de la semaine enregistre-t-on le moins de décès ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_result</span><span class="o">=</span><span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">jour</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">deces_quot_hopital</span><span class="p">[</span><span class="n">jour</span><span class="p">::</span><span class="mi">7</span><span class="p">])</span>
+    <span class="n">list_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    
+<span class="n">list_result</span>    
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[8778.0, 7444.0, 7209.0, 6957.0, 5220.0, 4245.0, 8454.0]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">deces_quot_hopital_bis</span> <span class="o">=</span> <span class="n">deces_quot_hopital</span><span class="p">[:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="c1"># multiple de 7</span>
+<span class="n">deces_quot_hopital_bis</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">deces_quot_hopital_bis</span><span class="p">)</span><span class="o">//</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([187.17777778, 160.33333333, 153.93333333, 154.6       ,
+       116.        ,  94.33333333, 187.86666667])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">list_result</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Nombre total de décés par jour&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;jour de la semaine&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;deces&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;deces&#39;)
+</pre></div>
+</div>
+<img alt="../_images/28f827857476a5688172517f7a60c031d0b3f8899f18a981cf5227123c055bd4.png" src="../_images/28f827857476a5688172517f7a60c031d0b3f8899f18a981cf5227123c055bd4.png" />
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simpson.html">Formule de Simpson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_sphere.html">Volume d’une sphère</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravimetre.html">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vigicrue.html">Vigicrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loi_de_poisson.html">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="volume_sphere.html" title="Volume d’une sphère"
+              >previous</a> |
+            <a href="gravimetre.html" title="Analyse de données de gravimètres."
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/covid.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

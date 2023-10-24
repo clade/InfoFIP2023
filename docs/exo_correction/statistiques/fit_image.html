@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Fit d’une image &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fit de franges d’interférence" href="fit_sinu.html" />
+    <link rel="prev" title="Corrélation" href="correlation.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="correlation.html" title="Corrélation"
+             accesskey="P">previous</a> |
+          <a href="fit_sinu.html" title="Fit de franges d’interférence"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="fit-d-une-image">
+<h1>Fit d’une image<a class="headerlink" href="#fit-d-une-image" title="Permalink to this headline">¶</a></h1>
+<p>Le fichier <a class="reference download internal" download="" href="../_downloads/d2ee71e3c8c6cd0732de5988a17fa3c7/double_star.txt"><code class="xref download docutils literal notranslate"><span class="pre">data/double_star.txt</span></code></a> contient une image de 64 par 64 pixels d’une étoile double. L’objectif de cette partie est d’ajuster cette image par la somme de deux Gaussiennes afin de déterminer la distance entre les étoiles.</p>
+<ol class="arabic simple">
+<li><p>Charger et afficher le fichier à l’aide de la fonction imshow</p></li>
+<li><p>Définir une fonction de fit et tracer une image qui ressemble à celle ci. On pourra utiliser la fonction meshgrid.</p></li>
+</ol>
+<p>Il n’est pas possible de travailler directement sur des tableau 2D pour le fit : l’ensemble des intensité de l’image doit être sous forme d’un tableau (taille <span class="math notranslate nohighlight">\(N\)</span>) ainsi que l’ensemble de coordonnées <span class="math notranslate nohighlight">\((x,y)\)</span> des ces points (tailles <span class="math notranslate nohighlight">\(N\times 2\)</span>).</p>
+<ol class="arabic simple" start="3">
+<li><p>Ecrire une fonction qui s’adapte au contraite du fit et effectuer le fit.</p></li>
+<li><p>Quelle est la distance et son incertitude (en pixel) entre les deux étoiles ?</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 1</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data/double_star.txt&#39;</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fe35fc1eb50&gt;
+</pre></div>
+</div>
+<img alt="../_images/6db4e105ccb72aa0eac7668a95fa2955ae4d7e4f75982a1c7644f26a22553c60.png" src="../_images/6db4e105ccb72aa0eac7668a95fa2955ae4d7e4f75982a1c7644f26a22553c60.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 2</span>
+<span class="n">ny</span><span class="p">,</span> <span class="n">nx</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+<span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">nx</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">ny</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">gaussienne_simple</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">center_x</span><span class="p">,</span> <span class="n">center_y</span><span class="p">,</span> <span class="n">diameter</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">amplitude</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">x</span><span class="o">-</span><span class="n">center_x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">center_y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">diameter</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">gaussienne_double</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">amplitudeA</span><span class="p">,</span> <span class="n">centerA_x</span><span class="p">,</span> <span class="n">centerA_y</span><span class="p">,</span> <span class="n">diameterA</span><span class="p">,</span> <span class="n">amplitudeB</span><span class="p">,</span> <span class="n">centerB_x</span><span class="p">,</span> <span class="n">centerB_y</span><span class="p">,</span> <span class="n">diameterB</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">gaussienne_simple</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">amplitudeA</span><span class="p">,</span> <span class="n">centerA_x</span><span class="p">,</span> <span class="n">centerA_y</span><span class="p">,</span> <span class="n">diameterA</span><span class="p">)</span> <span class="o">+</span> 
+            <span class="n">gaussienne_simple</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">amplitudeB</span><span class="p">,</span> <span class="n">centerB_x</span><span class="p">,</span> <span class="n">centerB_y</span><span class="p">,</span> <span class="n">diameterB</span><span class="p">))</span>
+<span class="n">p0</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">image_test</span> <span class="o">=</span> <span class="n">gaussienne_double</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="n">p0</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_test</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fe35db434f0&gt;
+</pre></div>
+</div>
+<img alt="../_images/efdafa62a4f588648e286a5b81c0fe0804affcd464d4a82ea148aad539a4360f.png" src="../_images/efdafa62a4f588648e286a5b81c0fe0804affcd464d4a82ea148aad539a4360f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 3</span>
+<span class="k">def</span> <span class="nf">gaussienne_double_fit</span><span class="p">(</span><span class="n">xdatas</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">xdatas</span>
+    <span class="k">return</span> <span class="n">gaussienne_double</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+<span class="n">popt</span><span class="p">,</span> <span class="n">cov_mat</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">gaussienne_double_fit</span><span class="p">,</span> <span class="p">[</span><span class="n">X</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">flatten</span><span class="p">()],</span> <span class="n">image</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">p0</span><span class="o">=</span><span class="n">p0</span><span class="p">)</span>
+
+<span class="n">image_fit</span> <span class="o">=</span> <span class="n">gaussienne_double</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="o">*</span><span class="n">popt</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image_fit</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0x7fe35dac0f40&gt;
+</pre></div>
+</div>
+<img alt="../_images/274ef92b791591e0ffba335a82249ecf0ecdb7549bd3b6f6a74a0e634fd9d902.png" src="../_images/274ef92b791591e0ffba335a82249ecf0ecdb7549bd3b6f6a74a0e634fd9d902.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 4</span>
+<span class="n">amplitudeA</span><span class="p">,</span> <span class="n">centerA_x</span><span class="p">,</span> <span class="n">centerA_y</span><span class="p">,</span> <span class="n">diameterA</span><span class="p">,</span> <span class="n">amplitudeB</span><span class="p">,</span> <span class="n">centerB_x</span><span class="p">,</span> <span class="n">centerB_y</span><span class="p">,</span> <span class="n">diameterB</span> <span class="o">=</span> <span class="n">popt</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">centerA_x</span> <span class="o">-</span> <span class="n">centerB_x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">centerA_y</span> <span class="o">-</span> <span class="n">centerB_y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;La distance entre les étoiles est de </span><span class="si">{</span><span class="n">d</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1"> pixels&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La distance entre les étoiles est de 12.464 pixels
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_x</span> <span class="o">=</span> <span class="n">cov_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">cov_mat</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">cov_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">var_y</span> <span class="o">=</span> <span class="n">cov_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="n">cov_mat</span><span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">cov_mat</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+
+<span class="n">std_distance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">var_x</span> <span class="o">+</span> <span class="n">var_y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L&#39;incertitude est de </span><span class="si">{</span><span class="n">std_distance</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> pixels&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L&#39;incertitude est de 0.013 pixels
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="correlation.html">Corrélation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fit d’une image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit_sinu.html">Fit de franges d’interférence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="correlation.html" title="Corrélation"
+              >previous</a> |
+            <a href="fit_sinu.html" title="Fit de franges d’interférence"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/statistiques/fit_image.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

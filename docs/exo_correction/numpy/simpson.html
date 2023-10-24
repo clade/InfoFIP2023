@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Formule de Simpson &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Volume d’une sphère" href="volume_sphere.html" />
+    <link rel="prev" title="Numpy" href="../numpy.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../numpy.html" title="Numpy"
+             accesskey="P">previous</a> |
+          <a href="volume_sphere.html" title="Volume d’une sphère"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="formule-de-simpson">
+<h1>Formule de Simpson<a class="headerlink" href="#formule-de-simpson" title="Permalink to this headline">¶</a></h1>
+<p>On rappelle la formule de Simpson pour le calcul approché d’une intégrale :</p>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{equation*}
+\begin{split}
+\int_a^bf(x)\mathrm dx \approx \Delta_x\sum_{i=0}^{N-1}\frac{f(x_i) + 4f(x_i+\frac{\Delta_x}2) + f(x_i + \Delta_x)}6 \equiv I(f;a,b,N) \end{split}
+\end{equation*}\]</div>
+<p>où <span class="math notranslate nohighlight">\(\Delta_x =\frac{b-a}N\)</span> et <span class="math notranslate nohighlight">\(x_i = a + i\Delta_x\)</span>.</p>
+<ol class="arabic simple">
+<li><p>Ecrivez une fonction <code class="docutils literal notranslate"><span class="pre">simpson_slow</span></code> qui calcule l’intégrale d’une function <span class="math notranslate nohighlight">\(f\)</span> entre <span class="math notranslate nohighlight">\(a\)</span> et <span class="math notranslate nohighlight">\(b\)</span> avec <span class="math notranslate nohighlight">\(N\)</span> pas avec la méthode de Simpson en utilisant une boucle (for loop).</p></li>
+<li><p>Ecrivez une autre fonction <code class="docutils literal notranslate"><span class="pre">simpson_fast</span></code> qui fait la même chose sans utiliser de boucle (on suposera que la fonction <span class="math notranslate nohighlight">\(f\)</span> est vectorisée).</p></li>
+<li><p>Calculez l’intégrale de <span class="math notranslate nohighlight">\(f(x) = \frac{1}{1+x^2}\)</span> entre 0 et 1 pour <span class="math notranslate nohighlight">\(N=1000\)</span> et comparez le temps entre les deux fonctions en ecrirant <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> avant la commande.</p></li>
+<li><p>Calculez la valeur théorique <span class="math notranslate nohighlight">\(I^\star\)</span> de l’intégrale et tracez en échelle logarithmique le residu <span class="math notranslate nohighlight">\(|I^\star - I(f,0,1,N)|\)</span> par rapport à <span class="math notranslate nohighlight">\(N\)</span>. Qu’elle est la vitesse de convergence de cette intégrale ?</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1.</span>
+
+<span class="k">def</span> <span class="nf">simpson_slow</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">integral</span> <span class="o">+=</span> <span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span><span class="o">/</span><span class="mi">6</span>
+    <span class="k">return</span> <span class="n">integral</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 2.</span>
+
+<span class="k">def</span> <span class="nf">simpson_fast</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">dx</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span><span class="o">/</span><span class="mi">6</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3.</span>
+
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Temps d&#39;exécution pour simpson_slow:&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> simpson_slow(f, 0, 1, 1000)
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Temps d&#39;exécution pour simpson_fast:&quot;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> simpson_fast(f, 0, 1, 1000)
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Temps d&#39;exécution pour simpson_slow:
+5.59 ms ± 250 µs per loop (mean ± std. dev. of 7 runs, 100 loops each)
+
+
+Temps d&#39;exécution pour simpson_fast:
+60.6 µs ± 708 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+</pre></div>
+</div>
+</div>
+</div>
+<p>La solution analytique de l’intégrale est : <span class="math notranslate nohighlight">\(\int_0^1 \frac{dx}{1+x^2} = \arctan(x)|_0^1 = \pi/4\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">N_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">residuum</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">N</span> <span class="ow">in</span> <span class="n">N_array</span><span class="p">:</span>
+    <span class="n">residuum</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="o">-</span><span class="n">simpson_fast</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">))</span>
+<span class="c1"># Remarque : utiliser une boucle for ici ne ralentit pas le code car</span>
+<span class="c1"># 1/ le calcul de simpson prend relativement beaucoup de temps</span>
+<span class="c1"># 2/ il y a moins de 30 itérations</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 4.</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">N_array</span><span class="p">,</span> <span class="n">residuum</span><span class="p">,</span> <span class="s1">&#39;bo&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Residuum&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Convergence de la méthode de Simpson&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">which</span> <span class="o">=</span> <span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Residus&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Nombre de pas N&#39;</span><span class="p">)</span>
+
+<span class="n">TN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">TN</span><span class="p">,</span> <span class="n">residuum</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">N_array</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">TN</span><span class="p">)</span><span class="o">**</span><span class="mi">6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$1/N^6$&#39;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1">#gradient = np.polyfit(np.log(N_array), np.log(residuum), 1)[0]</span>
+<span class="c1">#print(f&quot;L&#39;intégrale converge en res(N)~ N^({gradient:0.1f})&quot;)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fca3c2a9520&gt;
+</pre></div>
+</div>
+<img alt="../_images/f45d7cd6f4d791e7b4c594ceaab270b413591f11fa7a097261a426e6e923daca.png" src="../_images/f45d7cd6f4d791e7b4c594ceaab270b413591f11fa7a097261a426e6e923daca.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Formule de Simpson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_sphere.html">Volume d’une sphère</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covid.html">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravimetre.html">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vigicrue.html">Vigicrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loi_de_poisson.html">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../numpy.html" title="Numpy"
+              >previous</a> |
+            <a href="volume_sphere.html" title="Volume d’une sphère"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/simpson.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Exemple simple de DFT &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Machine à laver le linge" href="machine_a_laver.html" />
+    <link rel="prev" title="Transformée de Fourier" href="../Fourier.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../Fourier.html" title="Transformée de Fourier"
+             accesskey="P">previous</a> |
+          <a href="machine_a_laver.html" title="Machine à laver le linge"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="exemple-simple-de-dft">
+<h1>Exemple simple de DFT<a class="headerlink" href="#exemple-simple-de-dft" title="Permalink to this headline">¶</a></h1>
+<p>L’objectif de cet exercice est d’étudier numériquement la transformée de Fourier d’une Gaussienne : <span class="math notranslate nohighlight">\(G(x) = \exp(-\frac{x^2}{2\sigma^2})\)</span>. Analytiquemet, la T.F. de G vaut <span class="math notranslate nohighlight">\(\tilde G(\omega) = \sqrt{2\pi}\sigma \exp(-\frac{\omega^2\sigma^2}{2})\)</span></p>
+<ol class="arabic simple">
+<li><p>Écrire une fonction Python qui retourne une Gaussienne <span class="math notranslate nohighlight">\(\exp(-\frac{x^2}{2\sigma^2})\)</span> sur [-L/2, L/2] et son axe des \texttt{x = L/N*np.arange(N) - L/2}, prenant comme paramètres <span class="math notranslate nohighlight">\(\sigma\)</span>, <span class="math notranslate nohighlight">\(L\)</span> et <span class="math notranslate nohighlight">\(N\)</span>.</p></li>
+<li><p>Tracer la Gaussienne pour <span class="math notranslate nohighlight">\(\sigma=0.5\)</span> et <span class="math notranslate nohighlight">\(N=1000\)</span> et <span class="math notranslate nohighlight">\(L=5\)</span>.</p></li>
+<li><p>Tracer la DFT de la Gausienne pour <span class="math notranslate nohighlight">\(\sigma=0.15\)</span> pour une plage de fréquences inférieures à 20 : (a) Quel taux d’échantillonnage <span class="math notranslate nohighlight">\(\Delta x = L/N\)</span> faut-il utiliser ? (b) Quelle valeur minimum de L faut-il choisir pour obtenir une résolution en fréquence de 0.04 ?</p></li>
+<li><p>Comparer la courbe obtenue avec la formule analytique ? Pourquoi la DFT de la Gaussienne n’est pas possitive ?</p></li>
+<li><p>Que se passe-t-il si <span class="math notranslate nohighlight">\(\sigma=1.5\)</span> ?</p></li>
+<li><p>Appliquer la transformée de Fourier inverse et vérifier que l’on obient bien le signal initial.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">fft</span><span class="p">,</span> <span class="n">ifft</span><span class="p">,</span> <span class="n">rfft</span><span class="p">,</span> <span class="n">irfft</span><span class="p">,</span> <span class="n">rfftfreq</span><span class="p">,</span> <span class="n">fftfreq</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span><span class="n">L</span><span class="p">,</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">Delta_x</span> <span class="o">=</span> <span class="n">L</span><span class="o">/</span><span class="n">N</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">Delta_x</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="n">L</span><span class="o">/</span><span class="mi">2</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">N</span><span class="o">=</span><span class="mi">1000</span>
+<span class="n">sigma</span><span class="o">=</span><span class="mf">0.1</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f7cac6d7d00&gt;]
+</pre></div>
+</div>
+<img alt="../_images/570fb19b5c2369e0af9cda71d0405d02e7dfba0bb057a2ade8a32525fe62cab1.png" src="../_images/570fb19b5c2369e0af9cda71d0405d02e7dfba0bb057a2ade8a32525fe62cab1.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="mf">0.04</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="n">L</span><span class="p">)</span> <span class="c1"># f_max = dx/2</span>
+<span class="n">sigma</span><span class="o">=</span><span class="mf">0.15</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">sigma</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="n">f_tilde</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="n">f_axis</span> <span class="o">=</span> <span class="n">fftfreq</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">L</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f_axis</span><span class="p">,</span> <span class="n">f_tilde</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c1"># La TF présente des valeurs négatives car elle n&#39;est pas centrée en j=0 mais en j=N/2</span>
+<span class="c1"># La phase vaut exp(2 i pi N/2 k/N) donc \pm 1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/pierre/.local/lib/python3.8/site-packages/matplotlib/cbook/__init__.py:1335: ComplexWarning: Casting complex values to real discards the imaginary part
+  return np.asarray(x, float)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f7c78bc6dc0&gt;]
+</pre></div>
+</div>
+<img alt="../_images/f613f14d06fe5f07cf0f2bbdf2f74ddb53a10dba6edcfed322c45d50e10b537b.png" src="../_images/f613f14d06fe5f07cf0f2bbdf2f74ddb53a10dba6edcfed322c45d50e10b537b.png" />
+</div>
+</div>
+<p>La TF présente des valeurs négatives car elle n’est pas centrée en <span class="math notranslate nohighlight">\(j=0\)</span> mais en <span class="math notranslate nohighlight">\(j=N/2\)</span>. La phase vaut <span class="math notranslate nohighlight">\(e^{2 i \pi  \frac{N}{2} \frac{k}{N}}\)</span> donc <span class="math notranslate nohighlight">\((-1)^k\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f_tilde</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">L</span><span class="o">/</span><span class="n">N</span>
+<span class="n">f_axis_dft</span> <span class="o">=</span> <span class="n">fftfreq</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">L</span><span class="o">/</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f_axis_dft</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f_tilde</span><span class="p">),</span> <span class="s1">&#39;.&#39;</span><span class="p">)</span>
+
+<span class="n">f_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">201</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f_axis</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span><span class="o">*</span><span class="n">sigma</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">f_axis</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(-5.0, 5.0)
+</pre></div>
+</div>
+<img alt="../_images/3e850966ad18ad77226fefd3aba72d02fe0b27ba319b6fb74923eb608268cd00.png" src="../_images/3e850966ad18ad77226fefd3aba72d02fe0b27ba319b6fb74923eb608268cd00.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_tilde</span> <span class="o">=</span> <span class="n">fft</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">signal_initial</span> <span class="o">=</span> <span class="n">ifft</span><span class="p">(</span><span class="n">y_tilde</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">signal_initial</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f7c78ac3430&gt;]
+</pre></div>
+</div>
+<img alt="../_images/dd2b71a99307a04d0bfc7c210f4e51c23e3dea4f47f9235bbadc5f32e267438b.png" src="../_images/dd2b71a99307a04d0bfc7c210f4e51c23e3dea4f47f9235bbadc5f32e267438b.png" />
+</div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exemple simple de DFT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="machine_a_laver.html">Machine à laver le linge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="verres_musicaux.html">Les verres musicaux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../Fourier.html" title="Transformée de Fourier"
+              >previous</a> |
+            <a href="machine_a_laver.html" title="Machine à laver le linge"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/Fourier/exemple_simple.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

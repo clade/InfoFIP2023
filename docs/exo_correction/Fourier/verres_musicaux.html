@@ -1,0 +1,245 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Les verres musicaux &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Problèmes" href="../problemes.html" />
+    <link rel="prev" title="Machine à laver le linge" href="machine_a_laver.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="machine_a_laver.html" title="Machine à laver le linge"
+             accesskey="P">previous</a> |
+          <a href="../problemes.html" title="Problèmes"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="les-verres-musicaux">
+<h1>Les verres musicaux<a class="headerlink" href="#les-verres-musicaux" title="Permalink to this headline">¶</a></h1>
+<p>Un verre d’eau partiellement rempli peut émettre une note distincte lorsque l’on frotte son bord avec un doigt mouillé. C’est l’ingrédient de base du <a class="reference external" href="https://fr.wikipedia.org/wiki/Verrillon">Verrillon</a>. Mais que cache son spectre ?</p>
+<p>La vidéo <a class="reference download internal" download="" href="../_downloads/6cbf969e9da6c2fb3ed0046952a048c7/Singing_Glass.MOV"><code class="xref download docutils literal notranslate"><span class="pre">data/Singing_Glass.MOV</span></code></a> à été faite avec un verre à vin, de l’eau et un smartphone. Sa bande son à été extraite dans le fichier <a class="reference download internal" download="" href="../_downloads/0397d992a5e9a530f152a9c8a2e1ac3a/SingingGlass.wav"><code class="xref download docutils literal notranslate"><span class="pre">data/SingingGlass.wav</span></code></a>.</p>
+<ol class="arabic simple">
+<li><p>Télécharger, puis importer la piste sonore SingingGlass.wav :</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.io.wavfile</span> <span class="kn">import</span> <span class="n">read</span>
+<span class="n">samplerate</span><span class="p">,</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;data/SingingGlass.wav&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Afficher le nombre de points N contenus dans ce signal, la durée de l’intervalle entre deux points et la durée totale de l’enregistrement.</p></li>
+<li><p>Afficher le signal. Quelle est approximativement la fréquence du son ?</p></li>
+<li><p>L’intensité du spectre à une fréquence donnée est proportionnel au carré du module de la transformée de Fourier. Affichez le spectre de SingingGlass.wav.</p></li>
+<li><p>Zoomer autour de la fréquence du son. Que remarquez-vous ?</p></li>
+<li><p>On a phénomène de battement que l’on entend à l’oreille. Qu’elle est la fréquence du battement ?</p></li>
+</ol>
+<p>Il s’agit d’un phénomène méconnu mais relativement commun avec les verres musicaux, où deux modes de vibration orthogonaux sont excités. Ces deux modes n’ont pas exactement la même énergie due aux imperfections dans la symétrie du verre. La non-dégénérescence de ces modes dépend du niveau d’eau. Voir par exemple:
+https://newt.phys.unsw.edu.au/music/people/publications/Jundtetal2006.pdf</p>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.io.wavfile</span> <span class="kn">import</span> <span class="n">read</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">figure</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">numpy.fft</span> <span class="kn">import</span> <span class="n">rfft</span><span class="p">,</span> <span class="n">rfftfreq</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Fs</span> <span class="p">,</span> <span class="n">amplitude</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;data/SingingGlass.wav&#39;</span><span class="p">)</span>
+<span class="n">amplitude</span> <span class="o">=</span> <span class="n">amplitude</span><span class="o">/</span><span class="mi">2</span><span class="o">**</span><span class="mi">16</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;N =&#39;</span><span class="p">,</span><span class="n">N</span><span class="p">)</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">Fs</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dt = &#39;</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">dt</span><span class="o">*</span><span class="n">N</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;T =&#39;</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>N = 800001
+dt =  2.2675736961451248e-05 s
+T = 18.14061224489796 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">time</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">3E-3</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-.</span><span class="mi">5</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+<span class="n">axins</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">inset_axes</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">,</span> <span class="mf">0.47</span><span class="p">])</span>
+<span class="n">axins</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">amplitude</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">indicate_inset_zoom</span><span class="p">(</span><span class="n">axins</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ax</span><span class="p">,</span> <span class="n">axins</span><span class="p">]:</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/3d1172fa7226d7e93703f64260ebb25247bb97ad398716e34faa577a827fd246.png" src="../_images/3d1172fa7226d7e93703f64260ebb25247bb97ad398716e34faa577a827fd246.png" />
+</div>
+</div>
+<p>Il y a a peu près 3 oscillations en 2 ms.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">frequency</span> <span class="o">=</span> <span class="n">rfft</span><span class="p">(</span><span class="n">amplitude</span><span class="p">)</span>
+<span class="n">freqs</span> <span class="o">=</span> <span class="n">rfftfreq</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequence [Hz]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Frequence [Hz]&#39;)
+</pre></div>
+</div>
+<img alt="../_images/72b53eea7ffd8ada335603db4d6430dec61c16e0db22c5550aa0f48002fe2c89.png" src="../_images/72b53eea7ffd8ada335603db4d6430dec61c16e0db22c5550aa0f48002fe2c89.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">1600</span><span class="p">,</span> <span class="mi">1620</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Frequence [Hz]&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;Frequence [Hz]&#39;)
+</pre></div>
+</div>
+<img alt="../_images/14994b5f14af030f62a66c9d84b2dae613dcf371c916afa7325e0d685c15b2de.png" src="../_images/14994b5f14af030f62a66c9d84b2dae613dcf371c916afa7325e0d685c15b2de.png" />
+</div>
+</div>
+<p>On observe bien deux fréquences séparée d’environ 2 Hz.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="exemple_simple.html">Exemple simple de DFT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="machine_a_laver.html">Machine à laver le linge</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Les verres musicaux</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="machine_a_laver.html" title="Machine à laver le linge"
+              >previous</a> |
+            <a href="../problemes.html" title="Problèmes"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/Fourier/verres_musicaux.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

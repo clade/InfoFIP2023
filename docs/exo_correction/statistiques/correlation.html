@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Corrélation &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Fit d’une image" href="fit_image.html" />
+    <link rel="prev" title="Ajustements de courbes et statistiques" href="../statistiques.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../statistiques.html" title="Ajustements de courbes et statistiques"
+             accesskey="P">previous</a> |
+          <a href="fit_image.html" title="Fit d’une image"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="correlation">
+<h1>Corrélation<a class="headerlink" href="#correlation" title="Permalink to this headline">¶</a></h1>
+<p>On simule une jeu de données à l’aide du code suivant :</p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># pour que le générateur &quot;aléatoire&quot; soit </span>
+                  <span class="c1"># le même pour tout le monde</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span> <span class="o">+</span> <span class="mi">45</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/f95b72454e473f0a31d34d3b1cf93ec0bd4a79cd85bbb0ec5934deac88271625.png" src="../_images/f95b72454e473f0a31d34d3b1cf93ec0bd4a79cd85bbb0ec5934deac88271625.png" />
+</div>
+</div>
+<ol class="arabic simple">
+<li><p>Tracez et ajustez les données par une une droite <span class="math notranslate nohighlight">\(y=ax+b\)</span>.</p></li>
+<li><p>Quel est l’incertitude sur <span class="math notranslate nohighlight">\(b\)</span>? Qu’en pensez-vous ?</p></li>
+<li><p>Calculez la valeur et l’incertitude de votre fit en <span class="math notranslate nohighlight">\(x= 2010\)</span>.</p></li>
+<li><p>Réalisez <span class="math notranslate nohighlight">\(M\)</span> simulations (<span class="math notranslate nohighlight">\(M\)</span> = 1000 par exemples); tracez sur un graph les coefficients a et b; Calculez la matrice de covariance.</p></li>
+<li><p>Trouvez une fonction de fit plus pertinente pour ce problème.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 1</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
+
+<span class="k">def</span> <span class="nf">fit_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">p_opt</span><span class="p">,</span> <span class="n">cov_mat</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fit_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p_opt</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">p_opt</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">fit_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">*</span><span class="n">p_opt</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[ 1.08348182e+00 -2.12175517e+03]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f02977d76d0&gt;]
+</pre></div>
+</div>
+<img alt="../_images/e48fa03aab1d0550a3b0c531b05525361892f8fcb40d418395f95dda44963bdc.png" src="../_images/e48fa03aab1d0550a3b0c531b05525361892f8fcb40d418395f95dda44963bdc.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 2</span>
+
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cov_mat</span><span class="p">))</span>
+
+<span class="n">sigma_a</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sigma_b</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Incertitude sur b : </span><span class="si">{</span><span class="n">sigma_b</span><span class="si">:</span><span class="s1">.1f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># L&#39;incertitude sur b est beaucoup plus importante que l&#39;incertitude</span>
+<span class="c1"># sur chaque point</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Incertitude sur b : 38.8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 3</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="mi">2010</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valeur en 2010 &#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">*</span><span class="n">x_test</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">sigma_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_test</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sigma_b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Incertitude sans correlations&#39;</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valeur en 2010  56.04328983428377
+Incertitude sans correlations 54.92410215981484
+</pre></div>
+</div>
+</div>
+</div>
+<p>Les variables <span class="math notranslate nohighlight">\(a\)</span> et <span class="math notranslate nohighlight">\(b\)</span> ne sont pas indépendante. La variance de <span class="math notranslate nohighlight">\(ax + b\)</span> est donnée par <span class="math notranslate nohighlight">\(x^2\mathrm{Var}(a) + \mathrm{Var}(b) + 2x\mathrm{Covar}(a, b)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sigma_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_test</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sigma_b</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x_test</span><span class="o">*</span><span class="n">cov_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Incertitude avec correlations </span><span class="si">{</span><span class="n">sigma_y</span><span class="si">:</span><span class="s1">.3f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Incertitude avec correlations 0.103
+</pre></div>
+</div>
+</div>
+</div>
+<p>Il est donc important de tenir compte des correlations obtenu par le fit pour calculer exactement l’incertitude sur une valeur du fit.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Question 4</span>
+<span class="k">def</span> <span class="nf">one_simulation</span><span class="p">():</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">N</span><span class="p">)</span><span class="o">*</span><span class="mf">0.2</span> <span class="o">+</span> <span class="mi">45</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">p_opt</span><span class="p">,</span> <span class="n">cor_mat</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fit_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">p_opt</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">many_results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">one_simulation</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">)])</span>
+<span class="n">Ta</span><span class="p">,</span> <span class="n">Tb</span> <span class="o">=</span> <span class="n">many_results</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Ta</span><span class="p">,</span> <span class="n">Tb</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;b&#39;)
+</pre></div>
+</div>
+<img alt="../_images/9e9dc558bd4d81967e516d877d9c4c477d533a043cafe9b45f5eca79ffcfc3b9.png" src="../_images/9e9dc558bd4d81967e516d877d9c4c477d533a043cafe9b45f5eca79ffcfc3b9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cov_numerique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">many_results</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">cov_numerique</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[[ 3.47366872e-04 -6.97875508e-01]
+ [-6.97875508e-01  1.40207350e+03]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cov_mat</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 3.73523915e-04, -7.50409536e-01],
+       [-7.50409536e-01,  1.50758303e+03]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Fonction de fit plus pretinente</span>
+<span class="c1"># Le parametre $b$ correspond au fit en l&#39;an 2000</span>
+<span class="k">def</span> <span class="nf">fit_function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="mi">2000</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="n">p_opt</span><span class="p">,</span> <span class="n">cor_mat</span> <span class="o">=</span> <span class="n">curve_fit</span><span class="p">(</span><span class="n">fit_function</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p_opt</span>
+
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cor_mat</span><span class="p">))</span>
+<span class="n">sigma_a</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">sigma_b</span> <span class="o">=</span> <span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">x_test</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Valeur en 2010 &#39;</span><span class="p">,</span> <span class="n">a</span><span class="o">*</span><span class="n">x_test</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="n">sigma_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_test</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sigma_b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Incertitude sans correlations&#39;</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">)</span>
+
+<span class="n">sigma_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_test</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma_a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">sigma_b</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">x_test</span><span class="o">*</span><span class="n">cor_mat</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Incertitude avec correlations&#39;</span><span class="p">,</span> <span class="n">sigma_y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Valeur en 2010  56.04328985689939
+Incertitude sans correlations 0.2790998350851877
+Incertitude avec correlations 0.10325894775854749
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Corrélation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit_image.html">Fit d’une image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fit_sinu.html">Fit de franges d’interférence</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../statistiques.html" title="Ajustements de courbes et statistiques"
+              >previous</a> |
+            <a href="fit_image.html" title="Fit d’une image"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/statistiques/correlation.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

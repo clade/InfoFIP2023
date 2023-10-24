@@ -1,0 +1,9 @@
+# Ajustements de courbes et statistiques
+
+```{toctree}
+:maxdepth: 2
+
+./statistiques/correlation.ipynb
+./statistiques/fit_image.ipynb
+./statistiques/fit_sinu.ipynb
+```

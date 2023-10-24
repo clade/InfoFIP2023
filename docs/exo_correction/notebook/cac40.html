@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Analyse des données du CAC 40 &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Numpy" href="../numpy.html" />
+    <link rel="prev" title="Fichiers avec Python et les notebook" href="fichiers.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+             accesskey="P">previous</a> |
+          <a href="../numpy.html" title="Numpy"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="analyse-des-donnees-du-cac-40">
+<h1>Analyse des données du CAC 40<a class="headerlink" href="#analyse-des-donnees-du-cac-40" title="Permalink to this headline">¶</a></h1>
+<p>L’objectif de cet exercice est de manipuler des données à l’aide de liste et de dictionnaire (sans utiliser de tableaux numpy).</p>
+<p>Télécharger depuis le site https://fr.finance.yahoo.com/quote/%5EFCHI/history/ les données du CAC 40 depuis 3 ans. Le fichier obtenu contient : la date, le cours d’ouverture, le plus haut, le plus bas, le cours de clôture, le cours de clôture ajusté et le volume de titres échangés. Ce contenu est séparé par des <code class="docutils literal notranslate"><span class="pre">,</span></code>.</p>
+<p>Remarque : la méthode <code class="docutils literal notranslate"><span class="pre">split</span></code> d’une chaine de caractère permet de la séparer en plusieurs sous chaînes. Par exemple :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;12,bonjour,3.14&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>On suprimera la première ligne du fichier.</p>
+<ol class="arabic simple">
+<li><p>Afficher les 10 premières lignes du fichier</p></li>
+<li><p>Créer une liste contenant le plus haut de la bourse jour par jour. Qu’elle est la valeur la plus haute du CAC 40 ?</p></li>
+<li><p>Écrire une fonction qui prend le jour, le mois et l’année et renvoie une chaîne de caractère pour la date sous la forme : aaaa-mm-jj (par exemple 1515-09-13)</p></li>
+<li><p>Écrire une fonction qui renvoie le plus bas d’une journée à partir du jour, du mois et de l’année. Cette fonction renverra une exception si le jour n’existe pas.</p></li>
+<li><p>Plutôt qu’une liste, on va utiliser un dictionnaire dont la clé sera la date. Créer un dictionnaire qui contiendra pour chaque jour un dictionnaire avec pour clé : ‘haut’, ‘bas’, ‘ouverture’, ‘fermeture’, ‘volume’. Par exemple on pourra utiliser :
+<code class="docutils literal notranslate"><span class="pre">cac_40['2020-10-05']['haut']</span></code></p></li>
+<li><p>Enregistrer ce dictionnaire dans un fichier au format json. Vérifier que vous pouvez l’ouvrir !</p></li>
+<li><p>Regarder la documentation de la fonction <code class="docutils literal notranslate"><span class="pre">parse</span></code> du module <code class="docutils literal notranslate"><span class="pre">dateutil.parser</span></code> et trouver le moyen de convertir une date sous la forme <code class="docutils literal notranslate"><span class="pre">2020-10-05</span></code> en un nombre (nombre de jour ou nombre de seconde depuis une date donnée).</p></li>
+<li><p>Tracer l’évolution au cours du temps de CAC 40.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;data/cac40.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">toutes_les_lignes</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+
+<span class="n">toutes_les_lignes</span> <span class="o">=</span> <span class="n">toutes_les_lignes</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    
+<span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">toutes_les_lignes</span><span class="p">[:</span><span class="mi">10</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">elm</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2020-07-30,4952.080078,4952.379883,4801.020020,4852.939941,4852.939941,137065700
+2020-07-31,4866.240234,4902.899902,4783.689941,4783.689941,4783.689941,129676300
+2020-08-03,4797.060059,4899.520020,4763.600098,4875.930176,4875.930176,104619900
+2020-08-04,4905.660156,4920.799805,4856.649902,4889.520020,4889.520020,86945300
+2020-08-05,4916.959961,4954.600098,4907.410156,4933.339844,4933.339844,74970100
+2020-08-06,4919.410156,4951.859863,4860.979980,4885.129883,4885.129883,80015300
+2020-08-07,4873.100098,4896.209961,4843.899902,4889.520020,4889.520020,62365400
+2020-08-10,4905.270020,4937.629883,4878.580078,4909.509766,4909.509766,62044500
+2020-08-11,4952.410156,5052.120117,4949.049805,5027.990234,5027.990234,97809400
+2020-08-12,5017.729980,5096.529785,5010.799805,5073.310059,5073.310059,76792800
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plus_haut</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">toutes_les_lignes</span><span class="p">:</span>
+    <span class="n">plus_haut</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">elm</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]))</span>
+
+<span class="nb">max</span><span class="p">(</span><span class="n">plus_haut</span><span class="p">)</span> <span class="c1"># Remarque : ne pas coder soi même la fonction max!</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>7581.259766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">format_date</span><span class="p">(</span><span class="n">jour</span><span class="p">,</span> <span class="n">mois</span><span class="p">,</span> <span class="n">annee</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Formate la date sous la forme : jj/mm/aa</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">annee</span><span class="si">:</span><span class="s2">04d</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">mois</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">jour</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="c1"># 02d : écriture decimale, 2 chiffres en tout, mettre des 0 devant </span>
+
+<span class="k">assert</span> <span class="n">format_date</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1515</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;1515-09-13&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">plus_bas</span><span class="p">(</span><span class="n">jour</span><span class="p">,</span> <span class="n">mois</span><span class="p">,</span> <span class="n">annee</span><span class="p">):</span>
+    <span class="n">date_demandee</span> <span class="o">=</span> <span class="n">format_date</span><span class="p">(</span><span class="n">jour</span><span class="p">,</span> <span class="n">mois</span><span class="p">,</span> <span class="n">annee</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">toutes_les_lignes</span><span class="p">:</span>
+        <span class="n">date</span><span class="p">,</span> <span class="n">ouverture</span><span class="p">,</span> <span class="n">haut</span><span class="p">,</span> <span class="n">bas</span><span class="p">,</span> <span class="n">fermeture</span><span class="p">,</span> <span class="n">fermeture_ajust</span><span class="p">,</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">elm</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">date</span><span class="o">==</span><span class="n">date_demandee</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">bas</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La date </span><span class="si">{</span><span class="n">date_demandee</span><span class="si">}</span><span class="s2"> n&#39;a pas pu être trouvée&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">plus_bas</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2020</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4842.259766
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cac_40</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">toutes_les_lignes</span><span class="p">:</span>
+    <span class="n">date</span><span class="p">,</span> <span class="n">ouverture</span><span class="p">,</span> <span class="n">haut</span><span class="p">,</span> <span class="n">bas</span><span class="p">,</span> <span class="n">fermeture</span><span class="p">,</span> <span class="n">fermeture_ajust</span><span class="p">,</span> <span class="n">volume</span> <span class="o">=</span> <span class="n">elm</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;ouverture&#39;</span><span class="p">:</span><span class="nb">float</span><span class="p">(</span><span class="n">ouverture</span><span class="p">),</span>
+        <span class="s1">&#39;haut&#39;</span> <span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">haut</span><span class="p">),</span>
+        <span class="s1">&#39;bas&#39;</span> <span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">bas</span><span class="p">),</span>
+        <span class="s1">&#39;fermeture&#39;</span> <span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">fermeture</span><span class="p">),</span>
+        <span class="s1">&#39;volume&#39;</span> <span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">volume</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">cac_40</span><span class="p">[</span><span class="n">date</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span>
+    
+<span class="n">cac_40</span><span class="p">[</span><span class="s1">&#39;2020-10-05&#39;</span><span class="p">][</span><span class="s1">&#39;fermeture&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4871.870117
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/cac_40.json&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">cac_40</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;/tmp/cac_40.json&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    
+    
+<span class="n">tmp</span><span class="p">[</span><span class="s1">&#39;2020-10-05&#39;</span><span class="p">][</span><span class="s1">&#39;fermeture&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>4871.870117
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dateutil.parser</span> <span class="kn">import</span> <span class="n">parse</span>
+<span class="n">day</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;2020-10-05&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">day</span><span class="o">.</span><span class="n">toordinal</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>737703
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_of_day</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">list_of_ouverture</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">elm</span> <span class="ow">in</span> <span class="n">cac_40</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">list_of_day</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">parse</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">toordinal</span><span class="p">())</span>
+    <span class="n">list_of_ouverture</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elm</span><span class="p">[</span><span class="s1">&#39;ouverture&#39;</span><span class="p">])</span>
+
+    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">list_of_day</span><span class="p">,</span> <span class="n">list_of_ouverture</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f11fc6d2d30&gt;]
+</pre></div>
+</div>
+<img alt="../_images/1d19d8d181666d3bafacd9b5a508a68465fa7858680dc7cdfcd40599437ed252.png" src="../_images/1d19d8d181666d3bafacd9b5a508a68465fa7858680dc7cdfcd40599437ed252.png" />
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="intro.html">Jupyter notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fichiers.html">Fichiers avec Python et les notebook</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analyse des données du CAC 40</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../numpy.html">Numpy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="fichiers.html" title="Fichiers avec Python et les notebook"
+              >previous</a> |
+            <a href="../numpy.html" title="Numpy"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/notebook/cac40.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,8 @@
+# Problèmes
+
+```{toctree}
+:maxdepth: 2
+
+./problemes/hydrogene.ipynb
+./problemes/ising.ipynb
+```

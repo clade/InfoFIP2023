@@ -1,0 +1,301 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Analyse de données de gravimètres. &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Vigicrue" href="vigicrue.html" />
+    <link rel="prev" title="Statistiques sur le COVID-19" href="covid.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="covid.html" title="Statistiques sur le COVID-19"
+             accesskey="P">previous</a> |
+          <a href="vigicrue.html" title="Vigicrue"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="analyse-de-donnees-de-gravimetres">
+<h1>Analyse de données de gravimètres.<a class="headerlink" href="#analyse-de-donnees-de-gravimetres" title="Permalink to this headline">¶</a></h1>
+<p><em>Extrait du sujet d’examen posé en 2021/2022</em></p>
+<p>Un gravimètre est un appareil qui mesure l’accélération de la pesanteur. A Paris, elle vaut <span class="math notranslate nohighlight">\(g\sim 9.81\)</span> m/s<span class="math notranslate nohighlight">\(^2\)</span>. Dans cet exercice nous allons analyser des données provenant du gravimètre à atomes froids du laboratoire LNE-SYRTE (à Paris) et celles provenant d’un gravimètre à supraconducteur qui ont été enregistrées en parallèle, pendant 27 jours, entre le 7 avril et le 4 mai 2015. Le gravimètre à atomes froids (CAG, cold atoms gravimeter) est un gravimètre dit absolu dans le sens où il mesure <span class="math notranslate nohighlight">\(g\)</span> directement en m/s<span class="math notranslate nohighlight">\(^2\)</span>. Le gravimètre à supraconducteur (‘iGRAV’) est un gravimètre dit relatif dans le sens où il mesure une tension en V qui peut être reliée à <span class="math notranslate nohighlight">\(g\)</span>. Ce dernier doit donc être calibré. Ceci peut justement se faire à l’aide du CAG. C’est ce que nous allons faire dans un premier temps.</p>
+<p>Vous trouverez un fichier texte <a class="reference download internal" download="" href="../_downloads/8f5bcc098cd0a289506f1ea93d07f5dc/CAGiGrav.txt"><code class="xref download docutils literal notranslate"><span class="pre">data/CAGiGrav.txt</span></code></a> dans le dossier data qui contient : la date (en <a class="reference external" href="https://fr.wikipedia.org/wiki/Jour_julien">jour Julien modifié</a> ‘MJD’), la mesure du gravimètre (en nm/s<span class="math notranslate nohighlight">\(^2\)</span>, par rapport à la valeur <span class="math notranslate nohighlight">\(g = 9.808~907~500\)</span> m/s<span class="math notranslate nohighlight">\(^2\)</span>), la mesure de l’iGRAV (en V) et le résidu entre les deux mesures après étalonnage de l’iGRAV (en nm/s<span class="math notranslate nohighlight">\(^2\)</span>). Ce contenu est séparé par des <code class="docutils literal notranslate"><span class="pre">'tabulations'</span></code>. La première ligne correspond à l’en-tête.</p>
+<ol class="arabic simple">
+<li><p>Importer le fichier  <code class="docutils literal notranslate"><span class="pre">'CAGiGRAV.txt'</span></code> et créer quatres tableaux de flottants (<code class="docutils literal notranslate"><span class="pre">float</span></code>) correspondant à la date, la mesure du CAG, celle de l’iGRAV et le résidu après calibration. On pourra utiliser la fonction <code class="docutils literal notranslate"><span class="pre">np.loadtxt()</span></code> dont les arguments peuvent être retrouvés à partir de sa documentation : il faudra savoir 1/ comment utiliser le <code class="docutils literal notranslate"><span class="pre">\t</span></code> comme séparateur et 2/ comment éliminer la première ligne (en-tête) du fichier.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">MJD</span><span class="p">,</span> <span class="n">CAG</span><span class="p">,</span> <span class="n">iGRAV</span><span class="p">,</span> <span class="n">RES</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;data/CAGiGrav.txt&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unpack</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Tracer l’évolution de l’accélération de la pesanteur en fonction de la date (en MJD) mesurée à l’aide du CAG et à l’aide du iGRAV. On pourra utiliser la fonction <code class="docutils literal notranslate"><span class="pre">plt.subplots</span></code> dont les arguments peuvent être retrouvés à partir de sa documentation : notamment un des arguments permettra de partager l’axe des abscisses.</p></li>
+</ol>
+<p>Le résultat typique que l’on observe est le suivant:</p>
+<p><img alt="alt text" src="../_images/gcagigrav.png" /></p>
+<p>Les variations de grandes amplitudes et de longues périodes sont liées à l’attraction de la lune et du soleil (phénomène des marées). Dans ce graphique, les unités sont en Gal. 1 µGal = 1 nm/s<span class="math notranslate nohighlight">\(^2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MJD</span><span class="p">,</span><span class="n">CAG</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;CAG-9808907500 (nm/s$^{-2}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;CAG&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MJD</span><span class="p">,</span><span class="n">iGRAV</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;iGRAV&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;(MJD)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;iGRAV (V)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;iGRAV (V)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/c0de0e94a4534308bb30c51a3c7e401a769cb90d4be2ea1b6dcef3b06b4967e1.png" src="../_images/c0de0e94a4534308bb30c51a3c7e401a769cb90d4be2ea1b6dcef3b06b4967e1.png" />
+</div>
+</div>
+<p>Comme pour beaucoup de jeux de données expérimentales, il manque des données (ici soit parce que les mesures ont été perturbées par des tremblements de terre soit parce que l’asservissement des lasers (servant au refroidissement laser des atomes) du gravimètre atomique a sauté). Ces données manquantes sont représentées par des ‘nan’ (not a number).</p>
+<p>La fonction <code class="docutils literal notranslate"><span class="pre">np.isnan</span></code> permet de créer un tableau de booléen contenant les nombres qui sont des ‘nan’. Le code suivant permet de creer un masque (tableau de booléen) contenant uniquement les données valides en même temps pour les deux gravimètres:</p>
+<div class="cell tag_keep docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">CAG</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">iGRAV</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Pourquoi avoir utilisé <code class="docutils literal notranslate"><span class="pre">~</span></code> et <code class="docutils literal notranslate"><span class="pre">|</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">not</span></code> et <code class="docutils literal notranslate"><span class="pre">or</span></code> ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ce que l&#39;on ne fait pas</span>
+<span class="c1"># mask = not(np.isnan(CAG) or np.isnan(GRAV)) </span>
+
+<span class="c1"># le ~ et le | effectue l&#39;opération point par point sur le tableau.  Le not ou or ne fonctionne que avec des</span>
+<span class="c1"># booléens</span>
+</pre></div>
+</div>
+</div>
+</div>
+<ol class="arabic simple" start="4">
+<li><p>Quelle était la valeur moyenne et l’écart type de <span class="math notranslate nohighlight">\(g\)</span> entre le 7 avril et le 4 mai 2015 (c’est à dire sur l’ensemble des données) ?</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;La valeur moyenne de g est de </span><span class="si">{</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">CAG</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span><span class="o">+</span><span class="mi">9808907500</span><span class="p">)</span><span class="o">*</span><span class="mf">1e-9</span><span class="si">:</span><span class="s2">.9f</span><span class="si">}</span><span class="s2"> m/s2 avec un écart type de </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">CAG</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> nm/s2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>La valeur moyenne de g est de 9.808907857 m/s2 avec un écart type de 464.6 nm/s2
+</pre></div>
+</div>
+</div>
+</div>
+<p>Les données de l’iGRAV sont données en volt.  On note <span class="math notranslate nohighlight">\(K\)</span> le coeficient de calibration de l’instrument (en nm.s<span class="math notranslate nohighlight">\(^{-2}\)</span>/V). On prendra <span class="math notranslate nohighlight">\(K=-898.25\)</span>nm.s<span class="math notranslate nohighlight">\(^{-2}\)</span>/V.</p>
+<ol class="arabic simple" start="5">
+<li><p>Calculer et tracer la différence entre les mesures enregistrées par le CAG et celles enregistrées par l’iGRAV après calibration: CAG-K*iGRAV. Vérifier graphiquement que votre résultat correspond bien à la quatrième colonne du fichier <code class="docutils literal notranslate"><span class="pre">'CAGiGRAV.txt'</span></code>.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="o">=</span> <span class="o">-</span><span class="mf">898.25</span>
+<span class="n">residu</span> <span class="o">=</span> <span class="n">CAG</span><span class="o">-</span><span class="n">K</span><span class="o">*</span><span class="n">iGRAV</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MJD</span><span class="p">,</span> <span class="n">residu</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">MJD</span><span class="p">,</span> <span class="n">RES</span><span class="p">,</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;residus (nm/s$^{-2}$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;(MJD)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;(MJD)&#39;)
+</pre></div>
+</div>
+<img alt="../_images/5115a3519ec55f14e9041c4f1a64b1b68e9440e00b6a61073dfbf9c79924a39b.png" src="../_images/5115a3519ec55f14e9041c4f1a64b1b68e9440e00b6a61073dfbf9c79924a39b.png" />
+</div>
+</div>
+<ol class="arabic simple" start="6">
+<li><p>Quel est l’écart type de ces résidus sur la période des 27 jours de mesures ? Comparer celui-ci avec l’écart type des mesures du gravimètre atomique (CAG) seules, calculées à la question 4. Commenter.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;L&#39;écart type du résidu vaut </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">residu</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2"> nm/s2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>L&#39;écart type du résidu vaut 11.8 nm/s2
+</pre></div>
+</div>
+</div>
+</div>
+<p>L’écart type des mesures du CAG seules est dominée par des variations de longues périodes qui se retrouvent
+aussi sur la mesure de l’iGRAV. Ces variations sont donc indépendantes de l’appareil et sont ‘corrigées’
+lorsqu’on fait la différence des mesures obtenues avec les deux gravimètres</p>
+<p>Grâce au gravimètre à supraconducteur, il a été possible d’éliminer les variations dues aux effets des marées et d’en déduire le bruit du CAG (le bruit de l’iGRAV est négligeable en comparaison). Lorsque l’on n’a pas cet appareil (l’IGRAV), il est possible de caractériser le bruit de l’instrument (le CAG) grace à un outils mathématique appelé <strong>la variance d’Allan</strong>. L’idée est que entre deux mesures consécutives, le signal varie peu et que seul le bruit de l’instrument va changer le résultat.</p>
+<p>La variance d’Allan est définie par :</p>
+<div class="math notranslate nohighlight">
+\[\sigma_\mathrm{Allan}^2 = \frac{1}{2} \left&lt;\left(x_{l+1} - x_l\right)^2\right&gt;_l\]</div>
+<ol class="arabic simple" start="7">
+<li><p>(facultative) Question de statistique: vérifier que si les <span class="math notranslate nohighlight">\(x_i\)</span> sont indépendants, <span class="math notranslate nohighlight">\(\sigma_\mathrm{Allan}\)</span> correspond à l’écart type des <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ol>
+<p>On note :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-48b50dcb-2c80-4646-a7af-729424be0514">
+<span class="eqno">(1)<a class="headerlink" href="#equation-48b50dcb-2c80-4646-a7af-729424be0514" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\mu = \left&lt;x_{l+1}\right&gt; =  \left&lt;x_l\right&gt;
+\end{equation}\]</div>
+<p>On peut alors dire que :</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0dcc59ff-5313-4d81-8da3-9e2627f46ba6">
+<span class="eqno">(2)<a class="headerlink" href="#equation-0dcc59ff-5313-4d81-8da3-9e2627f46ba6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\sigma_\mathrm{Allan}^2 = \frac{1}{2} \left&lt;\left((x_{l+1} - \mu) - (x_l - \mu)\right)^2\right&gt;_l
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-ca70f59e-06f2-46e3-9ab5-c2927013e9d7">
+<span class="eqno">(3)<a class="headerlink" href="#equation-ca70f59e-06f2-46e3-9ab5-c2927013e9d7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+\sigma_\mathrm{Allan}^2 = \frac{1}{2} \left( 
+\left&lt;\left(x_{l+1} - \mu\right)^2\right&gt;_l + 
+\left&lt;\left(x_{l} - \mu\right)^2\right&gt;_l + \left&lt;\left(x_{l+1} - \mu\right)\left(x_{l} - \mu\right)\right&gt;_l
+\right)
+\end{equation}\]</div>
+<p>Les deux premiers termes correspondent à la variance standard. Le troisième est nul dans le cas où les <span class="math notranslate nohighlight">\(x_i\)</span> sont indépendants. CQFD</p>
+<ol class="arabic simple" start="8">
+<li><p>Écrire une fonction <code class="docutils literal notranslate"><span class="pre">allan_variance(x)</span></code> qui calcule la variance d’Allan d’un jeu de données x. Bien que ce ne soit pas exactement le cas, nous allons ici supposer que chaque mesure du CAG est réalisée pendant un temps <span class="math notranslate nohighlight">\(\tau_0=177\)</span> s. Calculer <strong>l’écart type d’Allan</strong> <span class="math notranslate nohighlight">\(\sigma_{Allan}(\tau_0)\)</span> du jeu de données du CAG et vérifier que l’on a le même ordre de grandeur qu’à la question 6.</p></li>
+</ol>
+<ol class="arabic simple" start="8">
+<li><p>(bis) Si ce n’est pas déjà fait, écrire la fonction <code class="docutils literal notranslate"><span class="pre">allan_variance(x)</span></code> sans boucle for.</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">-</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">cag_allan_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">allan_variance</span><span class="p">(</span><span class="n">CAG</span><span class="p">[</span><span class="n">mask</span><span class="p">]))</span>
+<span class="n">igrav_allan_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">allan_variance</span><span class="p">(</span><span class="n">iGRAV</span><span class="p">[</span><span class="n">mask</span><span class="p">]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Écart type d&#39;Allan de la mesure de g&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- Gravimètre atomique : </span><span class="si">{</span><span class="n">cag_allan_std</span><span class="si">:</span><span class="s2">5.1f</span><span class="si">}</span><span class="s2"> nm/s2&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;- iGRAV               : </span><span class="si">{</span><span class="n">igrav_allan_std</span><span class="si">:</span><span class="s2">5.3f</span><span class="si">}</span><span class="s2"> nm/s2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Écart type d&#39;Allan de la mesure de g
+- Gravimètre atomique :  13.5 nm/s2
+- iGRAV               : 0.010 nm/s2
+</pre></div>
+</div>
+</div>
+</div>
+<p>Ceci montre que le bruit provient bien du gravimètre atomique.
+Ce qui pouvait se voir sur les courbes de la question 2.</p>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simpson.html">Formule de Simpson</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volume_sphere.html">Volume d’une sphère</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covid.html">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vigicrue.html">Vigicrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loi_de_poisson.html">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="covid.html" title="Statistiques sur le COVID-19"
+              >previous</a> |
+            <a href="vigicrue.html" title="Vigicrue"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/gravimetre.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

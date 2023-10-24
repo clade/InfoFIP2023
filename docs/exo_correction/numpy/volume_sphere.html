@@ -1,0 +1,205 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Volume d’une sphère &#8212; Exercices Python</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Statistiques sur le COVID-19" href="covid.html" />
+    <link rel="prev" title="Formule de Simpson" href="simpson.html" /> 
+  </head><body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../index.html">Exercices Python</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="simpson.html" title="Formule de Simpson"
+             accesskey="P">previous</a> |
+          <a href="covid.html" title="Statistiques sur le COVID-19"
+             accesskey="N">next</a> |
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="volume-d-une-sphere">
+<h1>Volume d’une sphère<a class="headerlink" href="#volume-d-une-sphere" title="Permalink to this headline">¶</a></h1>
+<p>On considère un nuage de points <span class="math notranslate nohighlight">\((x, y)\)</span> dans un plan 2D. Les variables <span class="math notranslate nohighlight">\(x\)</span> et <span class="math notranslate nohighlight">\(y\)</span> sont indépendantes et uniformément reparties entre -1 et 1.</p>
+<ol class="arabic simple">
+<li><p>En utilisant la fonction <code class="docutils literal notranslate"><span class="pre">np.random.rand</span></code>, créer un nuage de <span class="math notranslate nohighlight">\(M\)</span> points et tracer
+ce nuage. On pourra prendre <span class="math notranslate nohighlight">\(M=1000\)</span></p></li>
+<li><p>Tracer dans une autre couleur les points dans un cercle de rayon 1.</p></li>
+<li><p>En prenant <span class="math notranslate nohighlight">\(M\)</span> assez grand (par exemple <span class="math notranslate nohighlight">\(10^8\)</span>), calculer la probabilité d’être dans le cercle. En déduire une estimation de la surface d’un disque de rayon 1.</p></li>
+<li><p>Même question que la question 3, mais dans un espace de dimension <span class="math notranslate nohighlight">\(N\)</span>. Par exemple <span class="math notranslate nohighlight">\(N=5\)</span>. On écrira une fonction.</p></li>
+</ol>
+<hr class="docutils" />
+<section id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">M</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+
+<span class="n">mask</span> <span class="o">=</span> <span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="o">&lt;=</span><span class="mi">1</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="n">mask</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&lt;matplotlib.lines.Line2D at 0x7f27539ec2b0&gt;]
+</pre></div>
+</div>
+<img alt="../_images/37e3c59d1197ae4b0bbed098bbf0ae4871b86c32cc1b2f31d2bb7573fdafed3d.png" src="../_images/37e3c59d1197ae4b0bbed098bbf0ae4871b86c32cc1b2f31d2bb7573fdafed3d.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="o">=</span> <span class="mi">100000000</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="c1"># Il est aussi possible d&#39;utiliser la fonction np.random.uniform(-1, 1, size=M)</span>
+
+
+<span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">Y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="c1"># C&#39;est un tableau de Booléens. </span>
+<span class="n">vol</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span> 
+<span class="c1"># Le volume est celui du carré (=2^2) </span>
+<span class="c1"># multiplié par la probabilité d&#39;être dans le disque</span>
+<span class="c1"># Lors des opération de somme (ou moyenne) d&#39;un tableau de Booléens, </span>
+<span class="c1"># numpy va considérer que `False` vaut 0 et `True` 1.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Le volume est estimé à </span><span class="si">{</span><span class="n">vol</span><span class="si">:</span><span class="s1">.5f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Le volume est estimé à 3.14139
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">volume</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">Psquare</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">P</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">vol</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="n">N</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">Psquare</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">vol</span>
+
+<span class="n">vol5</span> <span class="o">=</span> <span class="n">volume</span><span class="p">(</span><span class="mi">10000000</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Le volume d&#39;une hyper-sphère de dimension 5 est estimé à </span><span class="si">{</span><span class="n">vol5</span><span class="si">:</span><span class="s2">.5f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Le volume d&#39;une hyper-sphère de dimension 5 est estimé à 5.26305
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          
+          <h3>Table of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../notebook.html">Géneralités sur Python</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../numpy.html">Numpy</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simpson.html">Formule de Simpson</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Volume d’une sphère</a></li>
+<li class="toctree-l2"><a class="reference internal" href="covid.html">Statistiques sur le COVID-19</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gravimetre.html">Analyse de données de gravimètres.</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vigicrue.html">Vigicrue</a></li>
+<li class="toctree-l2"><a class="reference internal" href="loi_de_poisson.html">Loi de poisson et générateur de nombre aléatoire</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../statistiques.html">Ajustements de courbes et statistiques</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../equa_diff.html">Equations différentielles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Fourier.html">Transformée de Fourier</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../problemes.html">Problèmes</a></li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+            </form>
+          </div>
+
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="simpson.html" title="Formule de Simpson"
+              >previous</a> |
+            <a href="covid.html" title="Statistiques sur le COVID-19"
+              >next</a> |
+            <a href="../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../_sources/numpy/volume_sphere.ipynb.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.1.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
