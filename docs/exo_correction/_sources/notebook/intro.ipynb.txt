@@ -11,7 +11,7 @@
     "* Dans ce répertoire, créer un notebook.\n",
     "* Si vous n'êtes par famillier avec les notebooks, voici quelques astuces : \n",
     "    * Utilisation de la touche 'Tab' pour la complétion automatique\n",
-    "    * Utiliser la combinaison Ctrl + Entrée pour valider une celluler\n",
+    "    * Utiliser la combinaison Ctrl + Entrée pour valider une cellule\n",
     "    * Menu : Cellule -> type de cellule -> markdown pour créer une zone de texte\n",
     "    \n",
     "Par exemple, créer au début de votre notebook les blocs suivants (zone de texte et calcul). Il est possible de rentrer des équations en utilisant le format latex : ```$E=mc^2$```\n",

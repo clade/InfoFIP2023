@@ -47,6 +47,7 @@
     "# 1.\n",
     "\n",
     "def simpson_slow(f, a, b, N):\n",
+    "    N = int(N)\n",
     "    dx = (b-a)/N\n",
     "    x = a + np.arange(N)*dx\n",
     "    integral = 0\n",
@@ -65,6 +66,7 @@
     "# 2.\n",
     "\n",
     "def simpson_fast(f, a, b, N):\n",
+    "    N = int(N)\n",
     "    dx = (b-a)/N\n",
     "    x = a + np.arange(N)*dx\n",
     "    return np.sum(f(x) + 4*f(x+dx/2) + f(x+dx))*dx/6"

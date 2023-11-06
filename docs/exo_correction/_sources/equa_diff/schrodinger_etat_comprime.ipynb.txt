@@ -21,7 +21,7 @@
     "\n",
     "4. Ecrire une fonction Python qui calcule le Laplacien d'une fonction d'onde $\\psi$.\n",
     "\n",
-    "5. Ecrire la fonction Python `psi_prime(t, psi, V)` qui donne la dérivée de psi. Vérifier graphiquement que l'on a bien $\\frac{\\partial \\psi}{\\partial t} = -i\\omega/2 \\psi$ pour l'état fondamental du piège. \n",
+    "5. Ecrire la fonction Python `psi_prime(t, psi, V)` qui donne la dérivée de psi. Vérifier graphiquement que l'on a bien $\\frac{\\partial \\psi}{\\partial t} = -i\\frac{\\omega}{2} \\psi$ pour l'état fondamental du piège. \n",
     "\n",
     "6. Résoudre numériquement sur un temps $t=1.5$ l'équation de Schrödinger pour différents états initiaux : par exemple un paquet centré en $-2$ initialement au repos et de largeur $0.3$. On utilisera la méthode `RK23`.\n",
     "\n",

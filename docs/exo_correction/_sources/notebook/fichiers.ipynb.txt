@@ -8,7 +8,7 @@
     "# Fichiers avec Python et les notebook\n",
     "\n",
     "- A l'aide de Python, créer un fichier contenant le mot \"Bonjour\"\n",
-    "- Ouvrir ce fichier à l'aide d'un étideur de texte et modifier le.\n",
+    "- Ouvrir ce fichier à l'aide d'un éditeur de texte et modifier le.\n",
     "- Lire à nouveau le fichier avec Python"
    ]
   },

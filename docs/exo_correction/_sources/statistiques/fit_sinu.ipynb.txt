@@ -37,7 +37,7 @@
     "\n",
     "1. Lire le fichier et tracer les données.\n",
     "\n",
-    "2. Écrire  la   fonction   de   fit   qui   dépend   des   paramètres   ci   dessus.   On   appellera frange(x, ...).  Tracez  la  courbe  pour  x  entre ±220 Hz avec des paramètre raisonables.  On  prendra  un  inter-frange de 200 Hz.\n",
+    "2. Écrire  la   fonction   de   fit   qui   dépend   des   paramètres   ci   dessus.   On   appellera frange(x, ...).  Tracez  la  courbe  pour  x  entre ±220 Hz avec des paramètres raisonables.  On  prendra  un  inter-frange de 200 Hz.\n",
     "\n",
     "3. Calculer les paramètres optimaux. Quelle est la position la frange centrale ? Représentez les points et la courbe.\n",
     "\n",

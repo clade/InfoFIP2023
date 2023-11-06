@@ -14,14 +14,24 @@
     "\n",
     "Le piège de Penning est un dispositif permettant de stocker des particules chargées, grâce à la combinaison d'un champ magnétique uniforme et d'un champ électrique quadripolaire constant. Nous proposons d'en simuler le comportement. \n",
     "\n",
-    "On considère un ion béryllium $Be^+$ dont on notera $q$ la chage. On note $B$ l'amplitude du champ magnétique, uniforme, et dirigé selon $z$. Le champ electrostatique dipolaire dérive du potentiel suivant : \n",
-    "$$ V = \\frac{Q}{2} \\left(x^2 +y^2 - 2z^2\\right) $$\n",
+    "On considère un ion béryllium $Be^+$ dont on notera $q$ la chage. On note $B$ l'amplitude du champ magnétique, uniforme, et dirigé selon $z$. Le champ electrostatique dipolaire dérive du potentiel suivant :\n",
+    "\n",
+    "$$ \n",
+    "V = \\frac{Q}{2} \\left(x^2 +y^2 - 2z^2\\right)\n",
+    "$$\n",
     "\n",
     "Le champ électrique vaut donc :\n",
-    "$$ \\vec E = -Q\\left( x\\vec{u}_x + y\\vec{u}_y  -2z\\vec{u}_z \\right) $$\n",
+    "\n",
+    "$$\n",
+    "\\vec E = -Q\\left( x\\vec{u}_x + y\\vec{u}_y  -2z\\vec{u}_z \\right)\n",
+    "$$\n",
     "\n",
     "La force est donnée par :\n",
-    "$$ \\vec{F} = q\\left(\\vec{E} + \\vec{v}\\wedge\\vec{B}\\right)$$\n",
+    "\n",
+    "$$\n",
+    "\\vec{F} = q\\left(\\vec{E} + \\vec{v}\\wedge\\vec{B}\\right)\n",
+    "$$\n",
+    "\n",
     "où le symbol $\\wedge$ représente le produit vectoriel.\n",
     "\n",
     "Valeurs numériques : "
@@ -50,7 +60,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "1. Ecrire une fonction python qui renvoie l'accélération $\\vec{F}/m$ en fonction de $\\vec{r}$ la position et $\\vec{v}$ la vitesse représentée par des tableaux numpy. On pourra utiliser la fonction ``np.cross``pour  calculer la produit vectoriel"
+    "1. Ecrire une fonction python qui renvoie l'accélération $\\vec{F}/m$ en fonction de $\\vec{r}$ la position et $\\vec{v}$ la vitesse représentée par des tableaux numpy. On pourra utiliser la fonction ``np.cross`` pour  calculer la produit vectoriel"
    ]
   },
   {
@@ -106,7 +116,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "3. Dans un champ magnétique uniforme (sans champ electrique), un particule à une trajectoire circulaire dans le plan orthogonal au champ. Vérifier ceci en calculant la tractoire d'une particule ayant initialement une vitesse de 100 m/s dans ce plan.\n"
+    "3. Dans un champ magnétique uniforme (sans champ électrique), un particule à une trajectoire circulaire dans le plan orthogonal au champ. Vérifier ceci en calculant la tractoire d'une particule ayant initialement une vitesse de 100 m/s dans ce plan.\n"
    ]
   },
   {

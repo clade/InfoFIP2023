@@ -1,6 +1,10 @@
 Exercices Python
 ================
 
+L'ensemble des liens et resources pour ce cours se trouveront ici : `github.com/clade/InfoFIP2023 <https://github.com/clade/InfoFIP2023>`_.
+
+
+
 .. toctree::
    :maxdepth: 2
 

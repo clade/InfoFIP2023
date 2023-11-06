@@ -7,7 +7,7 @@
    "source": [
     "# Analyse des données du CAC 40\n",
     "\n",
-    "L'objectif de cet exercice est de manipuler des données à l'aide de liste et de dictionnaire (sans utiliser de tableaux numpy).\n",
+    "L'objectif de cet exercice est de manipuler des données à l'aide de listes et de dictionnaires (sans utiliser de tableaux numpy).\n",
     "\n",
     "Télécharger depuis le site https://fr.finance.yahoo.com/quote/%5EFCHI/history/ les données du CAC 40 depuis 3 ans. Le fichier obtenu contient : la date, le cours d'ouverture, le plus haut, le plus bas, le cours de clôture, le cours de clôture ajusté et le volume de titres échangés. Ce contenu est séparé par des `,`.\n",
     "\n",

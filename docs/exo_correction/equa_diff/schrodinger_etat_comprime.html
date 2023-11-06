@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Equation de Schrödinger et états comprimés &#8212; Exercices Python</title>
+    <title>Equation de Schrödinger et états comprimés &#8212; Python I, FIP, L3</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -27,7 +27,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="../index.html">Exercices Python</a></div>
+          href="../index.html">Python I, FIP, L3</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="pendule.html" title="Le pendule"
              accesskey="P">previous</a> |
@@ -59,7 +59,7 @@
 <ol class="arabic simple" start="3">
 <li><p>Ecrire une fonction Python qui calcule un état Gaussien d’écart type <span class="math notranslate nohighlight">\(\sigma_x\)</span> de vitesse <span class="math notranslate nohighlight">\(v_0\)</span> et centré en <span class="math notranslate nohighlight">\(x_0\)</span>.</p></li>
 <li><p>Ecrire une fonction Python qui calcule le Laplacien d’une fonction d’onde <span class="math notranslate nohighlight">\(\psi\)</span>.</p></li>
-<li><p>Ecrire la fonction Python <code class="docutils literal notranslate"><span class="pre">psi_prime(t,</span> <span class="pre">psi,</span> <span class="pre">V)</span></code> qui donne la dérivée de psi. Vérifier graphiquement que l’on a bien <span class="math notranslate nohighlight">\(\frac{\partial \psi}{\partial t} = -i\omega/2 \psi\)</span> pour l’état fondamental du piège.</p></li>
+<li><p>Ecrire la fonction Python <code class="docutils literal notranslate"><span class="pre">psi_prime(t,</span> <span class="pre">psi,</span> <span class="pre">V)</span></code> qui donne la dérivée de psi. Vérifier graphiquement que l’on a bien <span class="math notranslate nohighlight">\(\frac{\partial \psi}{\partial t} = -i\frac{\omega}{2} \psi\)</span> pour l’état fondamental du piège.</p></li>
 <li><p>Résoudre numériquement sur un temps <span class="math notranslate nohighlight">\(t=1.5\)</span> l’équation de Schrödinger pour différents états initiaux : par exemple un paquet centré en <span class="math notranslate nohighlight">\(-2\)</span> initialement au repos et de largeur <span class="math notranslate nohighlight">\(0.3\)</span>. On utilisera la méthode <code class="docutils literal notranslate"><span class="pre">RK23</span></code>.</p></li>
 <li><p>Ecrire une fonction python <code class="docutils literal notranslate"><span class="pre">moments_x(psi)</span></code> qui retourne <span class="math notranslate nohighlight">\(\mathbb{E}(X)\)</span> (position moyenne) et <span class="math notranslate nohighlight">\(\mathbb{E}((X - \mathbb{E}(X))^2)\)</span> (carré de la largeur du paquet)</p></li>
 <li><p>Tracer ces moments en fonction de t.</p></li>
@@ -70,13 +70,13 @@
 <section id="solution">
 <h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <p>Equation de Schrödinger :</p>
-<div class="amsmath math notranslate nohighlight" id="equation-60f4256e-852e-49f7-86a3-be7af9745d49">
-<span class="eqno">(1)<a class="headerlink" href="#equation-60f4256e-852e-49f7-86a3-be7af9745d49" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-3ed168fe-e603-472f-9e69-08a585c2797a">
+<span class="eqno">(1)<a class="headerlink" href="#equation-3ed168fe-e603-472f-9e69-08a585c2797a" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 i\hbar\frac{\partial\psi}{\partial t} = -\frac{\hbar^2}{2m}\frac{\partial^2\psi}{\partial x} + \frac{1}{2} m \omega^2 x^2
 \end{equation}\]</div>
 <p>Etat fondamental : on définit <span class="math notranslate nohighlight">\(a_\mathrm{oh} = \sqrt{\frac{\hbar}{m\omega}}\)</span>. L’état fondamental est donné par :</p>
-<div class="amsmath math notranslate nohighlight" id="equation-64b7e180-1254-49f0-bfcb-9a104e3f9437">
-<span class="eqno">(2)<a class="headerlink" href="#equation-64b7e180-1254-49f0-bfcb-9a104e3f9437" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-88c713c3-222f-4ecf-9643-097519084ded">
+<span class="eqno">(2)<a class="headerlink" href="#equation-88c713c3-222f-4ecf-9643-097519084ded" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \psi_0 =  \frac{1}{\left( \pi a^2_\mathrm{oh}\right)^{\frac{1}{4}}} e^{-\frac{x^2}{2a_\mathrm{oh}^2}}
 \end{equation}\]</div>
 <p>a_ho = np.sqrt(hbar/(m*omega))

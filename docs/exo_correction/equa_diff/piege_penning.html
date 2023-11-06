@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Piège de Penning &#8212; Exercices Python</title>
+    <title>Piège de Penning &#8212; Python I, FIP, L3</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -27,7 +27,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="../index.html">Exercices Python</a></div>
+          href="../index.html">Python I, FIP, L3</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="schrodinger_etat_comprime.html" title="Equation de Schrödinger et états comprimés"
              accesskey="P">previous</a> |
@@ -53,13 +53,22 @@
 <p>En physique, les pièges à ions sont des dispositifs permettant de stocker des particules chargées pendant une longue durée, notamment dans le but de mesurer leurs propriétés avec précision.</p>
 <p>Il n’est pas possible de réaliser un piège à ions uniquement avec un champ électrique statique : en effet, un tel piège nécéssiterait d’avoir un maximum ou minimum du potentiel électrique - ce qui est impossible car son Laplacien est nul.</p>
 <p>Le piège de Penning est un dispositif permettant de stocker des particules chargées, grâce à la combinaison d’un champ magnétique uniforme et d’un champ électrique quadripolaire constant. Nous proposons d’en simuler le comportement.</p>
-<p>On considère un ion béryllium <span class="math notranslate nohighlight">\(Be^+\)</span> dont on notera <span class="math notranslate nohighlight">\(q\)</span> la chage. On note <span class="math notranslate nohighlight">\(B\)</span> l’amplitude du champ magnétique, uniforme, et dirigé selon <span class="math notranslate nohighlight">\(z\)</span>. Le champ electrostatique dipolaire dérive du potentiel suivant :
-$<span class="math notranslate nohighlight">\( V = \frac{Q}{2} \left(x^2 +y^2 - 2z^2\right) \)</span>$</p>
-<p>Le champ électrique vaut donc :
-$<span class="math notranslate nohighlight">\( \vec E = -Q\left( x\vec{u}_x + y\vec{u}_y  -2z\vec{u}_z \right) \)</span>$</p>
-<p>La force est donnée par :
-$<span class="math notranslate nohighlight">\( \vec{F} = q\left(\vec{E} + \vec{v}\wedge\vec{B}\right)\)</span><span class="math notranslate nohighlight">\(
-où le symbol \)</span>\wedge$ représente le produit vectoriel.</p>
+<p>On considère un ion béryllium <span class="math notranslate nohighlight">\(Be^+\)</span> dont on notera <span class="math notranslate nohighlight">\(q\)</span> la chage. On note <span class="math notranslate nohighlight">\(B\)</span> l’amplitude du champ magnétique, uniforme, et dirigé selon <span class="math notranslate nohighlight">\(z\)</span>. Le champ electrostatique dipolaire dérive du potentiel suivant :</p>
+<div class="math notranslate nohighlight">
+\[ 
+V = \frac{Q}{2} \left(x^2 +y^2 - 2z^2\right)
+\]</div>
+<p>Le champ électrique vaut donc :</p>
+<div class="math notranslate nohighlight">
+\[
+\vec E = -Q\left( x\vec{u}_x + y\vec{u}_y  -2z\vec{u}_z \right)
+\]</div>
+<p>La force est donnée par :</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{F} = q\left(\vec{E} + \vec{v}\wedge\vec{B}\right)
+\]</div>
+<p>où le symbol <span class="math notranslate nohighlight">\(\wedge\)</span> représente le produit vectoriel.</p>
 <p>Valeurs numériques :</p>
 <div class="cell tag_keep docutils container">
 <div class="cell_input docutils container">
@@ -75,7 +84,7 @@ où le symbol \)</span>\wedge$ représente le produit vectoriel.</p>
 </div>
 </div>
 <ol class="arabic simple">
-<li><p>Ecrire une fonction python qui renvoie l’accélération <span class="math notranslate nohighlight">\(\vec{F}/m\)</span> en fonction de <span class="math notranslate nohighlight">\(\vec{r}\)</span> la position et <span class="math notranslate nohighlight">\(\vec{v}\)</span> la vitesse représentée par des tableaux numpy. On pourra utiliser la fonction <code class="docutils literal notranslate"><span class="pre">np.cross</span></code>pour  calculer la produit vectoriel</p></li>
+<li><p>Ecrire une fonction python qui renvoie l’accélération <span class="math notranslate nohighlight">\(\vec{F}/m\)</span> en fonction de <span class="math notranslate nohighlight">\(\vec{r}\)</span> la position et <span class="math notranslate nohighlight">\(\vec{v}\)</span> la vitesse représentée par des tableaux numpy. On pourra utiliser la fonction <code class="docutils literal notranslate"><span class="pre">np.cross</span></code> pour  calculer la produit vectoriel</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -119,7 +128,7 @@ où le symbol \)</span>\wedge$ représente le produit vectoriel.</p>
 </div>
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Dans un champ magnétique uniforme (sans champ electrique), un particule à une trajectoire circulaire dans le plan orthogonal au champ. Vérifier ceci en calculant la tractoire d’une particule ayant initialement une vitesse de 100 m/s dans ce plan.</p></li>
+<li><p>Dans un champ magnétique uniforme (sans champ électrique), un particule à une trajectoire circulaire dans le plan orthogonal au champ. Vérifier ceci en calculant la tractoire d’une particule ayant initialement une vitesse de 100 m/s dans ce plan.</p></li>
 </ol>
 <div class="cell docutils container">
 <div class="cell_input docutils container">

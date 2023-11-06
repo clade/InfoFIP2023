@@ -9,7 +9,7 @@
     "\n",
     "_Extrait du sujet de 2020/2021_\n",
     "\n",
-    "Le fichier `data_exo_1.dat` contient trois colonnes : la première est la date, la seconde le nombre cumulé de décès en hôpital liés au COVID-19 et la troisième le nombre cumulé de décès en EHPAD liés au COVID-19.\n",
+    "Le fichier {download}`data/data_covid.dat` contient trois colonnes : la première est la date, la seconde le nombre cumulé de décès en hôpital liés au COVID-19 et la troisième le nombre cumulé de décès en EHPAD liés au COVID-19.\n",
     "\n",
     "Le fichier commence le lundi 2 mars 2020. C'est l'origine de nos dates (jour 0). Dans la suite, on entend par date ou numéro du jour le nombre de jours écoulés depuis le 2 mars 2020. Ce fichier a été extrait de la base de donnée en janvier 2021 (il ne comprend donc que la première et début de la deuxième vague).\n",
     "\n",
@@ -90,7 +90,7 @@
    "id": "f6bcabb6",
    "metadata": {},
    "source": [
-    "3. Ajouter sur le même graph le nombre totoal de décés cumulé"
+    "3. Ajouter sur le même graph le nombre total de décés cumulé"
    ]
   },
   {

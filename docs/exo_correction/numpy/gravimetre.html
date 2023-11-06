@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Analyse de données de gravimètres. &#8212; Exercices Python</title>
+    <title>Analyse de données de gravimètres. &#8212; Python I, FIP, L3</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/agogo.css" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
@@ -27,7 +27,7 @@
     <div class="header-wrapper" role="banner">
       <div class="header">
         <div class="headertitle"><a
-          href="../index.html">Exercices Python</a></div>
+          href="../index.html">Python I, FIP, L3</a></div>
         <div class="rel" role="navigation" aria-label="related navigation">
           <a href="covid.html" title="Statistiques sur le COVID-19"
              accesskey="P">previous</a> |
@@ -180,17 +180,17 @@ lorsqu’on fait la différence des mesures obtenues avec les deux gravimètres<
 <li><p>(facultative) Question de statistique: vérifier que si les <span class="math notranslate nohighlight">\(x_i\)</span> sont indépendants, <span class="math notranslate nohighlight">\(\sigma_\mathrm{Allan}\)</span> correspond à l’écart type des <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
 </ol>
 <p>On note :</p>
-<div class="amsmath math notranslate nohighlight" id="equation-48b50dcb-2c80-4646-a7af-729424be0514">
-<span class="eqno">(1)<a class="headerlink" href="#equation-48b50dcb-2c80-4646-a7af-729424be0514" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-b6e50356-11b9-4b09-8ef0-f4ba84ff995d">
+<span class="eqno">(1)<a class="headerlink" href="#equation-b6e50356-11b9-4b09-8ef0-f4ba84ff995d" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \mu = \left&lt;x_{l+1}\right&gt; =  \left&lt;x_l\right&gt;
 \end{equation}\]</div>
 <p>On peut alors dire que :</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0dcc59ff-5313-4d81-8da3-9e2627f46ba6">
-<span class="eqno">(2)<a class="headerlink" href="#equation-0dcc59ff-5313-4d81-8da3-9e2627f46ba6" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ebac74d8-b016-4187-8d67-9850cc672e98">
+<span class="eqno">(2)<a class="headerlink" href="#equation-ebac74d8-b016-4187-8d67-9850cc672e98" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \sigma_\mathrm{Allan}^2 = \frac{1}{2} \left&lt;\left((x_{l+1} - \mu) - (x_l - \mu)\right)^2\right&gt;_l
 \end{equation}\]</div>
-<div class="amsmath math notranslate nohighlight" id="equation-ca70f59e-06f2-46e3-9ab5-c2927013e9d7">
-<span class="eqno">(3)<a class="headerlink" href="#equation-ca70f59e-06f2-46e3-9ab5-c2927013e9d7" title="Permalink to this equation">¶</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-1eaa49ec-c0cb-468f-8474-2812f3a061c5">
+<span class="eqno">(3)<a class="headerlink" href="#equation-1eaa49ec-c0cb-468f-8474-2812f3a061c5" title="Permalink to this equation">¶</a></span>\[\begin{equation}
 \sigma_\mathrm{Allan}^2 = \frac{1}{2} \left( 
 \left&lt;\left(x_{l+1} - \mu\right)^2\right&gt;_l + 
 \left&lt;\left(x_{l} - \mu\right)^2\right&gt;_l + \left&lt;\left(x_{l+1} - \mu\right)\left(x_{l} - \mu\right)\right&gt;_l
